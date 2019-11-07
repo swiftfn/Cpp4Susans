@@ -22,6 +22,7 @@ class Struct {
 
     for (const id of memberIds) {
       const member = this.$(`[id="${id}"]`)
+      console.log(member[0])
 
       const type = member.prop('nodeName')
       switch (type) {
@@ -38,7 +39,11 @@ class Struct {
           break
 
         case 'METHOD':
-          this.methods.push(member)
+          if (member.attr('static') === '1') {
+            this.staticMethods.push(member)
+          } else {
+            this.methods.push(member)
+          }
           break
 
         case 'OPERATORMETHOD':
@@ -51,9 +56,25 @@ class Struct {
     }
   }
 
-  render() {
+  renderC() {
+    const name = this.container.attr('name') + '_struct'
     return `
-struct ${this.container.attr('name')} {
+typedef struct ${name} ${name};
+`
+  }
+
+  renderSwift() {
+    console.log('this.staticFields', this.staticFields)
+    console.log('this.staticMethods', this.staticMethods)
+    console.log('this.fields', this.fields)
+    console.log('this.constructors', this.constructors)
+    console.log('this.destructors', this.destructors)
+    console.log('this.methods', this.methods)
+    console.log('this.operators', this.operators)
+
+    const name = this.container.attr('name')
+    return `
+public struct ${name} {
 
 }
 `

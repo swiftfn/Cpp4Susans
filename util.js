@@ -3,6 +3,10 @@ const getMemberIds = (node) => {
   return members.split(' ')
 }
 
+const getDataType = ($, node) => {
+
+}
+
 module.exports = {
   getMemberIds
 }

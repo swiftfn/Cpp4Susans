@@ -5,8 +5,8 @@ const cheerio = require('cheerio')
 
 const {Struct} = require('./struct')
 
-const XML = 'xml/SkSize.xml'
-const H = 'SkSize.h'
+const CAST_XML = 'xml/SkSize.xml'
+const CPP_HEADER = 'SkSize.h'
 
 const loadXml = (fileName) => {
   const xml = fs.readFileSync(fileName)
@@ -60,18 +60,34 @@ const collectStructures = ($, topNodes) => {
   return structures
 }
 
-const renderStructures = (structures) => {
+const renderC = (structures) => {
+  let ret = `#include "${CPP_HEADER}"\n`
+
   for (const s of structures) {
-    console.log(s.render())
+    ret += s.renderC()
   }
+
+  console.log(ret)
+}
+
+const renderSwift = (structures) => {
+  let ret = ''
+
+  for (const s of structures) {
+    ret += s.renderSwift()
+  }
+
+  console.log(ret)
 }
 
 async function main() {
-  const $ = await loadXml(XML)
-  const fileId = getHeaderFileId($, H)
+  const $ = await loadXml(CAST_XML)
+  const fileId = getHeaderFileId($, CPP_HEADER)
   const topNodes = getTopNodes($, fileId)
   const structures = collectStructures($, topNodes)
-  renderStructures(structures)
+
+  renderC(structures)
+  renderSwift(structures)
 }
 
 main()
