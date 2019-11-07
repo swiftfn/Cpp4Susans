@@ -3,10 +3,15 @@
 const fs = require('fs')
 const cheerio = require('cheerio')
 
-const {Struct} = require('./struct')
+const {Enum} = require('./enum')
+const {StructOrClass} = require('./struct-class')
+const {isTopScope} = require('./util')
 
-const CAST_XML = 'xml/SkSize.xml'
+const CAST_XML = 'input/SkSize.xml'
 const CPP_HEADER = 'SkSize.h'
+
+// const CAST_XML = 'input/SkCanvas.xml'
+// const CPP_HEADER = 'SkCanvas.h'
 
 const loadXml = (fileName) => {
   const xml = fs.readFileSync(fileName)
@@ -17,10 +22,6 @@ const getHeaderFileId = ($, fileName) => {
   const elem = $(`File[name$="/${fileName}"]`)
   // console.log(elem)
   return elem.attr('id')
-}
-
-const isTopScope = (node) => {
-  return node.attr('context') === '_1'
 }
 
 // Select top nodes of the header file
@@ -44,30 +45,42 @@ const collectStructures = ($, topNodes) => {
     const type = node.prop('nodeName')
     switch (type) {
       case 'STRUCT':
-        const s = new Struct($, node)
-        structures.push(s)
+      case 'CLASS': {
+        structures.push(new StructOrClass($, node))
         break
+      }
 
-      case 'OPERATORFUNCTION':
+      case 'OPERATORFUNCTION': {
         // TODO
         break
+      }
 
-      default:
+      case 'ENUMERATION': {
+        structures.push(new Enum($, node))
+        break
+      }
+
+      default: {
         console.log(`Unhandled node type "${type}"`, node)
+      }
     }
   })
 
   return structures
 }
 
-const renderC = (structures) => {
+const renderCHeader = (structures) => {
   let ret = `#include "${CPP_HEADER}"\n`
 
   for (const s of structures) {
-    ret += s.renderC()
+    ret += s.renderCHeader()
   }
 
-  console.log(ret)
+  return ret
+}
+
+const renderCImpl = (structures) => {
+  return `TODO`
 }
 
 const renderSwift = (structures) => {
@@ -77,7 +90,7 @@ const renderSwift = (structures) => {
     ret += s.renderSwift()
   }
 
-  console.log(ret)
+  return ret
 }
 
 async function main() {
@@ -86,8 +99,9 @@ async function main() {
   const topNodes = getTopNodes($, fileId)
   const structures = collectStructures($, topNodes)
 
-  renderC(structures)
-  renderSwift(structures)
+  console.log(renderCHeader(structures))
+  console.log(renderCImpl(structures))
+  console.log(renderSwift(structures))
 }
 
 main()
