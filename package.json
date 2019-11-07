@@ -1,0 +1,14 @@
+{
+  "name": "skia2swift",
+  "version": "1.0.0",
+  "description": "Convert Skia C++ library to Swift",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xml2js": "^0.4.22"
+  }
+}
