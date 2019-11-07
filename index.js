@@ -1,80 +1,77 @@
 // https://github.com/Leonidas-from-XIV/node-xml2js
 
 const fs = require('fs')
-const xml2js = require('xml2js').parseStringPromise
+const cheerio = require('cheerio')
+
+const {Struct} = require('./struct')
 
 const XML = 'xml/SkSize.xml'
 const H = 'SkSize.h'
 
-const loadXml = async (fileName) => {
+const loadXml = (fileName) => {
   const xml = fs.readFileSync(fileName)
-  return await xml2js(xml, {explicitRoot: false, explicitChildren: true, preserveChildrenOrder: true})
+  return cheerio.load(xml, {xmlMode: true})
 }
 
-const getHeaderFileId = (root, fileName) => {
-  const nodes = root.File
-  // console.log(nodes)
-
-  const node = nodes.find(node => node.$.name.endsWith(`/${fileName}`))
-  // console.log(node)
-  return node.$.id
+const getHeaderFileId = ($, fileName) => {
+  const elem = $(`File[name$="/${fileName}"]`)
+  // console.log(elem)
+  return elem.attr('id')
 }
 
-const filterTypeByFileId = (nodes, fileId) => {
-  return nodes.filter(node => node.$.file === fileId)
+const isTopScope = (node) => {
+  return node.attr('context') === '_1'
 }
 
-const getMemberIds = (node) => {
-  const {members} = node.$
-  return members.split(' ')
+// Select top nodes of the header file
+const getTopNodes = ($, fileId) => {
+  const topNodes = $(`:root > [file="${fileId}"]`)
+  // console.log(topNodes.length)
+  // console.log(topNodes)
+  return topNodes
 }
 
-const findNodeById = (root, id) => {
-  const types = Object.keys(root)
-  for (const type of types) {
-    const nodes = root[type]
-    for (const node of nodes) {
-      if (node.$.id === id) {
-        return node
-      }
+const collectStructures = ($, topNodes) => {
+  const structures = []
+
+  topNodes.each((idx, node) => {
+    node = $(node)
+
+    if (!isTopScope(node)) {
+      return
     }
-  }
-  return undefined
+
+    const type = node.prop('nodeName')
+    switch (type) {
+      case 'STRUCT':
+        const s = new Struct($, node)
+        structures.push(s)
+        break
+
+      case 'OPERATORFUNCTION':
+        // TODO
+        break
+
+      default:
+        console.log(`Unhandled node type "${type}"`, node)
+    }
+  })
+
+  return structures
 }
 
-const handleStruct = (node) => {
-  const memberIds = getMemberIds(localNodes[0])
-  console.log(memberIds)
-
-  const member = findNodeById(root, memberIds[0])
-  console.log(member)
-
-  console.log(findNodeById(root, '_78'))
-  console.log(findNodeById(root, '_1924'))
+const renderStructures = (structures) => {
+  for (const s of structures) {
+    console.log(s.render())
+  }
 }
 
 async function main() {
-  const root = await loadXml(XML)
-  // console.log(root)
-
-  console.log(JSON.stringify(root, null, 2))
-  process.exit(0)
-
-  delete root.$
-
-  const types = Object.keys(root).sort()
-  console.log(types)
-
-  const fileId = getHeaderFileId(root, H)
-
-  for (const type of types) {
-    const typeNodes = root[type]
-    const localNodes = filterTypeByFileId(typeNodes, fileId)
-    console.log(localNodes)
-
-    // switch (type)'Struct') {
-    //   handleStruct(structs[0])
-    // }
-  }
+  const $ = await loadXml(XML)
+  const fileId = getHeaderFileId($, H)
+  const topNodes = getTopNodes($, fileId)
+  const structures = collectStructures($, topNodes)
+  renderStructures(structures)
 }
+
 main()
