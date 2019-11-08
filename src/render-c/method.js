@@ -1,4 +1,4 @@
-const {MethodType} = require('../data/method')
+const {MethodType} = require('../declarations/method')
 const {getContextPath, getDataType} = require('../util')
 
 const getMethodName = (type, node) => {

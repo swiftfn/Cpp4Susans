@@ -1,7 +1,7 @@
 const fs = require('fs')
 const cheerio = require('cheerio')
 
-const {collectDeclarations} = require('./data/collect')
+const {collectDeclarations} = require('./declarations/collect')
 const {renderCImpl} = require('./render-c/impl')
 const {renderCHeader} = require('./render-h/header')
 const {renderSwift} = require('./render-swift/swift')
