@@ -1,7 +1,6 @@
 const {createRegistry} = require('../../registry')
 
 const registry = createRegistry([
-  require('./class'),
   require('./enum'),
   require('./field'),
   require('./function'),
