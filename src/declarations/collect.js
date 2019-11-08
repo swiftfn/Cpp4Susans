@@ -1,4 +1,4 @@
-const {hasNoContext} = require('../util')
+const {hasNoContext} = require('../castxml')
 
 // For avoiding cyclic dependencies
 const registry = {}

@@ -1,5 +1,5 @@
 const {FunctionType} = require('../declarations/function')
-const {getContextPath} = require('../util')
+const {getContextPath} = require('../castxml')
 
 const {renderArg, renderArgs} = require('./arg')
 

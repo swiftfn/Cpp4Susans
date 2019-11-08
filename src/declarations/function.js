@@ -1,4 +1,4 @@
-const {getDataType} = require('../util')
+const {getDataType} = require('../castxml')
 
 const FunctionType = {
   OPERATORFUNCTION: 'OPERATORFUNCTION'

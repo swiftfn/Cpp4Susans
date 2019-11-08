@@ -1,4 +1,4 @@
-const {getContextPath, getDataType} = require('../util')
+const {getContextPath, getDataType} = require('../castxml')
 
 const MethodType = {
   CONSTRUCTOR: 'CONSTRUCTOR',
