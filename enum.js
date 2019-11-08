@@ -26,22 +26,18 @@ class Enum {
 
   renderCHeader() {
     const name = getDataType(this.$, this.container)
-    return `
-enum ${name} {
+    return `enum ${name} {
 ${renderValues(this.$, this.values)}
-};
-`
+};`
   }
 
   renderSwift() {
     console.log('this.fields', this.fields)
 
     const name = this.container.attr('name')
-    return `
-public enum ${name} {
+    return `public enum ${name} {
 
-}
-`
+}`
   }
 }
 

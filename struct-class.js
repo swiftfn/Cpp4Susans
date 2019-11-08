@@ -97,27 +97,20 @@ class StructOrClass {
   renderCHeader() {
     const name = getDataType(this.$, this.container)
     return `
-// Inner enums
 ${this.enums.map(m => m.renderCHeader()).join('\n')}
 
-// Inner structs/classes
 ${this.structsAndClasses.map(m => m.renderCHeader()).join('\n')}
 
 typedef struct ${name} ${name};
 
-// Static methods
 ${this.staticMethods.map(m => m.renderCHeader()).join('\n')}
 
-// Constructors
 ${this.constructors.map(m => m.renderCHeader()).join('\n')}
 
-// Destructors
 ${this.destructors.map(m => m.renderCHeader()).join('\n')}
 
-// Methods
 ${this.methods.map(m => m.renderCHeader()).join('\n')}
 
-// Operators
 ${this.operators.map(m => m.renderCHeader()).join('\n')}
 `
   }

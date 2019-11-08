@@ -44,7 +44,8 @@ class Method {
 
   renderCSignature() {
     const name = getMethodName(this.type, this.node)
-    return this.returns + ' ' + getContextPath(this.$, this.node) + '_' + name + '()'
+    const suffix = this.isStatic ? '_static' : ''
+    return this.returns + ' ' + getContextPath(this.$, this.node) + '_' + name + suffix + '()'
   }
 
   renderCHeader() {
