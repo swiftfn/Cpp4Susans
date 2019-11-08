@@ -1,9 +1,5 @@
 const renderGroups = (groups, render) =>
-  groups.map((group) =>
-    group.map((member) =>
-      render(member)
-    ).join('\n')
-  ).join('\n')
+  groups.flat().map((member) => render(member)).join('\n')
 
 module.exports = {
   renderGroups

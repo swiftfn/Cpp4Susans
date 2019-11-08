@@ -1,5 +1,7 @@
 const {FunctionType} = require('../declarations/function')
-const {getContextPath, getDataType} = require('../util')
+const {getContextPath} = require('../util')
+
+const {renderArg, renderArgs} = require('./arg')
 
 const getFunctionName = (functionType, node) => {
   switch (functionType) {
@@ -10,22 +12,6 @@ const getFunctionName = (functionType, node) => {
     default:
       throw new Error(`Unknown function type: ${functionType}`)
   }
-}
-
-const renderArg = ($, arg) => {
-  const node = $(arg)
-  const name = node.attr('name')
-  const typeId = node.attr('type')
-  const type = getDataType($, typeId)
-  return `${type} ${name}`
-}
-
-const renderArgs = ($, args) => {
-  let acc = []
-  args.each((idx, arg) => {
-    acc.push('  ' + renderArg($, arg))
-  })
-  return acc.join(',\n')
 }
 
 const renderFunctionSignature = ($, declaration) => {

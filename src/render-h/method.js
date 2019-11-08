@@ -1,5 +1,7 @@
 const {MethodType} = require('../declarations/method')
-const {getContextPath, getDataType} = require('../util')
+const {getContextPath} = require('../util')
+
+const {renderArg, renderArgs} = require('./arg')
 
 const getMethodName = (methodType, node) => {
   switch (methodType) {
@@ -19,22 +21,6 @@ const getMethodName = (methodType, node) => {
     default:
       throw new Error(`Unknown method type: ${methodType}`)
   }
-}
-
-const renderArg = ($, arg) => {
-  const node = $(arg)
-  const name = node.attr('name')
-  const typeId = node.attr('type')
-  const type = getDataType($, typeId)
-  return `${type} ${name}`
-}
-
-const renderArgs = ($, args) => {
-  let acc = []
-  args.each((idx, arg) => {
-    acc.push('  ' + renderArg($, arg))
-  })
-  return acc.join(',\n')
 }
 
 const renderMethodSignature = ($, declaration) => {

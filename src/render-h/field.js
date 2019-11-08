@@ -1,7 +1,7 @@
-const {getDataType} = require('../util')
+const {renderArg} = require('./arg')
 
 const renderFieldHeader = ($, declaration) => {
-  return 'TODO renderFieldHeader'
+  return '  ' + renderArg($, declaration.node) + ';'
 }
 
 const register = (registry) => {

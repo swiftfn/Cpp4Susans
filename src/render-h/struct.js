@@ -5,7 +5,8 @@ const renderStructHeader = ($, declaration, render) => {
   const {
     node,
     enums, structs, classes,
-    staticMethods,
+    staticFields, staticMethods,
+    fields,
     constructors, destructors,
     methods, operators
   } = declaration
@@ -19,6 +20,11 @@ const renderStructHeader = ($, declaration, render) => {
   ]
 
   const groups2 = [
+    staticFields,
+    fields
+  ]
+
+  const groups3 = [
     staticMethods,
     constructors,
     destructors,
@@ -30,10 +36,10 @@ const renderStructHeader = ($, declaration, render) => {
 ${renderGroups(groups1, render)}
 
 typedef struct ${name} {
-  TODO
+${renderGroups(groups2, render)}
 } ${name};
 
-${renderGroups(groups2, render)}
+${renderGroups(groups3, render)}
 `
 }
 
