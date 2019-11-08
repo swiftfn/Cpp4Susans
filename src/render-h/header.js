@@ -1,11 +1,5 @@
 const {createRegistry} = require('../registry')
 
-const {renderClassHeader} = require('./class')
-const {renderEnumHeader} = require('./enum')
-const {renderFieldHeader} = require('./field')
-const {renderMethodHeader} = require('./method')
-const {renderStructHeader} = require('./struct')
-
 const registry = createRegistry([
   require('./class'),
   require('./enum'),

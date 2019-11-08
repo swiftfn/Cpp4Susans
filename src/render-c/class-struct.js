@@ -1,7 +1,7 @@
 const {getDataType} = require('../castxml')
-const {renderGroups} = require('./class-struct')
+const {renderGroups} = require('../render-h/class-struct')
 
-const renderImpl = (declaration) => {
+const renderClassStructImpl = ($, declaration, render) => {
   const {
     structs, classes,
     staticMethods,
@@ -15,9 +15,14 @@ const renderImpl = (declaration) => {
     constructors, destructors,
     methods, operators
   ]
-  return renderGroups(groups, (member) => member.renderImpl())
+  return renderGroups(groups, render)
+}
+
+const register = (registry) => {
+  registry['class'] = renderClassStructImpl
+  registry['struct'] = renderClassStructImpl
 }
 
 module.exports = {
-  renderImpl
+  register
 }
