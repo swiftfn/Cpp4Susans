@@ -26,6 +26,22 @@ const getMethodName = (type, node) => {
   }
 }
 
+const renderArg = ($, arg) => {
+  const node = $(arg)
+  const name = node.attr('name')
+  const typeId = node.attr('type')
+  const type = getDataType($, typeId)
+  return `${type} ${name}`
+}
+
+const renderArgs = ($, args) => {
+  let acc = []
+  args.each((idx, arg) => {
+    acc.push('  ' + renderArg($, arg))
+  })
+  return acc.join(',\n')
+}
+
 class Method {
   constructor($, node, isStatic, type) {
     this.$ = $
@@ -45,7 +61,14 @@ class Method {
   renderCSignature() {
     const name = getMethodName(this.type, this.node)
     const suffix = this.isStatic ? '_static' : ''
-    return this.returns + ' ' + getContextPath(this.$, this.node) + '_' + name + suffix + '()'
+    const args = this.args.length === 0
+      ? '()'
+      : '(\n' + renderArgs(this.$, this.args) + '\n)'
+    return (
+      this.returns + ' ' +
+      getContextPath(this.$, this.node) + '_' + name + suffix +
+      args
+    )
   }
 
   renderCHeader() {

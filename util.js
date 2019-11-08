@@ -12,6 +12,11 @@ exports.isPublic = (node) => {
   return node.attr('access') === 'public'
 }
 
+exports.isArtificial = (node) => {
+  // console.log(node[0])
+  return node.attr('artificial') === '1'
+}
+
 exports.getMemberIds = (node) => {
   // console.log(node[0])
   const members = node.attr('members')

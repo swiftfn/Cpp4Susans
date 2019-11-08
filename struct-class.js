@@ -1,6 +1,6 @@
 const {Enum} = require('./enum')
 const {Method, MethodType} = require('./method')
-const {getDataType, getMemberIds, isPublic} = require('./util')
+const {getDataType, getMemberIds, isArtificial, isPublic} = require('./util')
 
 class StructOrClass {
   constructor($, container) {
@@ -30,7 +30,7 @@ class StructOrClass {
       const member = this.$(`[id="${id}"]`)
       // console.log(member.attr('name'))
 
-      if (!isPublic(member)) {
+      if (!isPublic(member) || isArtificial(member)) {
         // console.log(member[0])
         continue
       }
