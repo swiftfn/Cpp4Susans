@@ -7,11 +7,11 @@ const {Enum} = require('./enum')
 const {StructOrClass} = require('./struct-class')
 const {isTopScope} = require('./util')
 
-// const CAST_XML = 'input/SkSize.xml'
-// const CPP_HEADER = 'SkSize.h'
+const CAST_XML = 'input/SkSize.xml'
+const CPP_HEADER = 'SkSize.h'
 
-const CAST_XML = 'input/SkCanvas.xml'
-const CPP_HEADER = 'SkCanvas.h'
+// const CAST_XML = 'input/SkCanvas.xml'
+// const CPP_HEADER = 'SkCanvas.h'
 
 const loadXml = (fileName) => {
   const xml = fs.readFileSync(fileName)
@@ -70,21 +70,36 @@ const collectStructures = ($, topNodes) => {
 }
 
 const renderCHeader = (structures) => {
-  let ret = `#include "${CPP_HEADER}"\n`
+  let ret = `#ifdef __cplusplus
+extern "C" {
+#endif
 
+`
   for (const s of structures) {
     ret += s.renderCHeader()
+  }
+
+  ret += `
+#ifdef __cplusplus
+}
+#endif
+`
+  return ret
+}
+
+const renderCImpl = (structures) => {
+  let ret = `#include "${CPP_HEADER}"
+#include "c_${CPP_HEADER}"\n`
+
+  for (const s of structures) {
+    ret += s.renderCImpl()
   }
 
   return ret
 }
 
-const renderCImpl = (structures) => {
-  return `TODO`
-}
-
 const renderSwift = (structures) => {
-  let ret = ''
+  let ret = 'import CSkia\n\n'
 
   for (const s of structures) {
     ret += s.renderSwift()

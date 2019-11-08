@@ -76,7 +76,9 @@ class Method {
   }
 
   renderCImpl() {
-    return `${this.renderCSignature()} {}`
+    return `${this.renderCSignature()} {
+
+}`
   }
 
   renderSwift() {

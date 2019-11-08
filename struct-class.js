@@ -2,6 +2,13 @@ const {Enum} = require('./enum')
 const {Method, MethodType} = require('./method')
 const {getDataType, getMemberIds, isArtificial, isPublic} = require('./util')
 
+const renderGroups = (groups, renderMember) =>
+  groups.map((group) =>
+    group.map((member) =>
+      renderMember(member)
+    ).join('\n')
+  ).join('\n')
+
 class StructOrClass {
   constructor($, container) {
     this.$ = $
@@ -96,27 +103,38 @@ class StructOrClass {
 
   renderCHeader() {
     const name = getDataType(this.$, this.container)
-    return `
-${this.enums.map(m => m.renderCHeader()).join('\n')}
 
-${this.structsAndClasses.map(m => m.renderCHeader()).join('\n')}
+    const groups1 = [
+      this.enums,
+      this.structsAndClasses
+    ]
+    const groups2 = [
+      this.staticMethods,
+      this.constructors,
+      this.destructors,
+      this.methods,
+      this.operators
+    ]
+
+    return `
+${renderGroups(groups1, (member) => member.renderCHeader())}
 
 typedef struct ${name} ${name};
 
-${this.staticMethods.map(m => m.renderCHeader()).join('\n')}
-
-${this.constructors.map(m => m.renderCHeader()).join('\n')}
-
-${this.destructors.map(m => m.renderCHeader()).join('\n')}
-
-${this.methods.map(m => m.renderCHeader()).join('\n')}
-
-${this.operators.map(m => m.renderCHeader()).join('\n')}
+${renderGroups(groups2, (member) => member.renderCHeader())}
 `
   }
 
   renderCImpl() {
-    return `TODO`
+    const groups = [
+      this.structsAndClasses,
+      this.staticMethods,
+      this.constructors,
+      this.destructors,
+      this.methods,
+      this.operators
+    ]
+    return renderGroups(groups, (member) => member.renderCImpl())
   }
 
   renderSwift() {
