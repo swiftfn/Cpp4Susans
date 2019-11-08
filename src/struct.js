@@ -1,7 +1,7 @@
-const {StructOrClass, renderGroups} = require('./struct-class')
+const {ClassOrStruct, renderGroups} = require('./class-struct')
 const {getDataType} = require('./util')
 
-class Class extends StructOrClass {
+class Struct extends ClassOrStruct {
   renderCHeader() {
     const name = getDataType(this.$, this.container)
 
@@ -77,5 +77,5 @@ ${renderGroups(groups2, (member) => member.renderCHeader())}
 }
 
 module.exports = {
-  Class
+  Struct
 }

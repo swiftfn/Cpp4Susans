@@ -108,6 +108,6 @@ const renderGroups = (groups, renderMember) =>
   ).join('\n')
 
 module.exports = {
-  StructOrClass,
+  ClassOrStruct,
   renderGroups
 }
