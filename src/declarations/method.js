@@ -1,11 +1,4 @@
-const {getContextPath, getDataType} = require('../castxml')
-
-const MethodType = {
-  CONSTRUCTOR: 'CONSTRUCTOR',
-  DESTRUCTOR: 'DESTRUCTOR',
-  METHOD: 'METHOD',
-  OPERATORMETHOD: 'OPERATORMETHOD'
-}
+const {getContextPath, getDataType, MethodType} = require('../castxml')
 
 const getMethodType = (node) => {
   const type = node.prop('nodeName')

@@ -1,5 +1,4 @@
-const {getContextPath, getDataType} = require('../castxml')
-const {MethodType} = require('../declarations/method')
+const {getContextPath, getDataType, MethodType} = require('../castxml')
 
 const getMethodName = (type, node) => {
   switch (type) {

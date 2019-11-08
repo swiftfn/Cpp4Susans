@@ -1,5 +1,4 @@
-const {MethodType} = require('../declarations/method')
-const {getContextPath} = require('../castxml')
+const {getContextPath, MethodType} = require('../castxml')
 
 const {renderArg, renderArgs} = require('./arg')
 

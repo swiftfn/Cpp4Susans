@@ -1,8 +1,4 @@
-const {getDataType} = require('../castxml')
-
-const FunctionType = {
-  OPERATORFUNCTION: 'OPERATORFUNCTION'
-}
+const {getDataType, FunctionType} = require('../castxml')
 
 const collectFunction = ($, node) => {
   const functionType = node.prop('nodeName')

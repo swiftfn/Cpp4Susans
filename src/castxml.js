@@ -1,3 +1,14 @@
+const FunctionType = {
+  OPERATORFUNCTION: 'OPERATORFUNCTION'
+}
+
+const MethodType = {
+  CONSTRUCTOR: 'CONSTRUCTOR',
+  DESTRUCTOR: 'DESTRUCTOR',
+  METHOD: 'METHOD',
+  OPERATORMETHOD: 'OPERATORMETHOD'
+}
+
 const hasNoContext = (node) => {
   return node.attr('context') === '_1'
 }
@@ -64,6 +75,8 @@ const getDataType = ($, idOrNode) => {
 }
 
 module.exports = {
+  FunctionType,
+  MethodType,
   hasNoContext,
   getContextPath,
   getDataType
