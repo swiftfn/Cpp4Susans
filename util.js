@@ -50,6 +50,10 @@ exports.getDataType = ($, idOrNode) => {
       return exports.withContextPath($, node, node.attr('name')) + '_t'
     }
 
+    case 'ENUMERATION': {
+      return exports.withContextPath($, node, node.attr('name'))
+    }
+
     case 'TYPEDEF': {
       return exports.getDataType($, node.attr('type'))
     }
