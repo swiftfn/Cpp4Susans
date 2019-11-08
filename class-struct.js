@@ -2,14 +2,7 @@ const {Enum} = require('./enum')
 const {Method, MethodType} = require('./method')
 const {getDataType, getMemberIds, isArtificial, isPublic} = require('./util')
 
-const renderGroups = (groups, renderMember) =>
-  groups.map((group) =>
-    group.map((member) =>
-      renderMember(member)
-    ).join('\n')
-  ).join('\n')
-
-class StructOrClass {
+class ClassOrStruct {
   constructor($, container) {
     this.$ = $
     this.container = container
@@ -23,8 +16,9 @@ class StructOrClass {
     this.methods = []
     this.operators = []
 
-    this.structsAndClasses = []
     this.enums = []
+    this.classes = []
+    this.structs = []
 
     this.collectMembers()
   }
@@ -83,9 +77,13 @@ class StructOrClass {
           break
         }
 
-        case 'STRUCT':
         case 'CLASS': {
-          this.structsAndClasses.push(new StructOrClass(this.$, member))
+          this.structsAndClasses.push(new Class(this.$, member))
+          break
+        }
+
+        case 'STRUCT': {
+          this.structsAndClasses.push(new Struct(this.$, member))
           break
         }
 
@@ -100,63 +98,16 @@ class StructOrClass {
       }
     }
   }
-
-  renderCHeader() {
-    const name = getDataType(this.$, this.container)
-
-    const groups1 = [
-      this.enums,
-      this.structsAndClasses
-    ]
-    const groups2 = [
-      this.staticMethods,
-      this.constructors,
-      this.destructors,
-      this.methods,
-      this.operators
-    ]
-
-    return `
-${renderGroups(groups1, (member) => member.renderCHeader())}
-
-typedef struct ${name} ${name};
-
-${renderGroups(groups2, (member) => member.renderCHeader())}
-`
-  }
-
-  renderCImpl() {
-    const groups = [
-      this.structsAndClasses,
-      this.staticMethods,
-      this.constructors,
-      this.destructors,
-      this.methods,
-      this.operators
-    ]
-    return renderGroups(groups, (member) => member.renderCImpl())
-  }
-
-  renderSwift() {
-    // console.log('this.staticFields', this.staticFields)
-    // console.log('this.staticMethods', this.staticMethods)
-    // console.log('this.fields', this.fields)
-    // console.log('this.constructors', this.constructors)
-    // console.log('this.destructors', this.destructors)
-    // console.log('this.methods', this.methods.length)
-    // console.log('this.operators', this.operators)
-    // console.log('this.enums', this.enums)
-
-    const type = this.container.prop('nodeName')
-    const name = this.container.attr('name')
-    return `
-public ${type === 'STRUCT' ? 'struct' : 'class'} ${name} {
-
 }
-`
-  }
-}
+
+const renderGroups = (groups, renderMember) =>
+  groups.map((group) =>
+    group.map((member) =>
+      renderMember(member)
+    ).join('\n')
+  ).join('\n')
 
 module.exports = {
-  StructOrClass
+  StructOrClass,
+  renderGroups
 }

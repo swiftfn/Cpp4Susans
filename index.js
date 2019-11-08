@@ -4,7 +4,8 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 
 const {Enum} = require('./enum')
-const {StructOrClass} = require('./struct-class')
+const {Class} = require('./class')
+const {Struct} = require('./struct')
 const {isTopScope} = require('./util')
 
 const CAST_XML = 'input/SkSize.xml'
@@ -44,9 +45,13 @@ const collectStructures = ($, topNodes) => {
 
     const type = node.prop('nodeName')
     switch (type) {
-      case 'STRUCT':
       case 'CLASS': {
-        structures.push(new StructOrClass($, node))
+        structures.push(new Class($, node))
+        break
+      }
+
+      case 'STRUCT': {
+        structures.push(new Struct($, node))
         break
       }
 
