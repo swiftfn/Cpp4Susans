@@ -1,7 +1,7 @@
 const {getDataType} = require('../util')
 const {renderGroups} = require('./class-struct')
 
-const renderClassHeader = ($, declaration) => {
+const renderClassHeader = ($, declaration, render) => {
   const {
     node,
     enums, structs, classes,
@@ -27,11 +27,11 @@ const renderClassHeader = ($, declaration) => {
   ]
 
   return `
-${renderGroups(groups1, (member) => member.renderHeader())}
+${renderGroups(groups1, render)}
 
 typedef struct ${name} ${name};
 
-${renderGroups(groups2, (member) => member.renderHeader())}
+${renderGroups(groups2, render)}
 `
 }
 

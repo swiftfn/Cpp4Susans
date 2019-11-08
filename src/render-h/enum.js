@@ -15,7 +15,7 @@ const renderValues = ($, values) => {
   return acc.join(',\n')
 }
 
-const renderHeader = ($, declaration) => {
+const renderEnumHeader = ($, declaration) => {
   const {node, values} = declaration
   const name = getDataType($, node)
   return `enum ${name} {
@@ -24,5 +24,5 @@ ${renderValues($, values)}
 }
 
 module.exports = {
-  renderHeader
+  renderEnumHeader
 }

@@ -22,11 +22,9 @@ async function main() {
   const $ = await loadXml(CAST_XML)
   const declarations = collectDeclarations($, CPP_HEADER)
 
-  console.log(declarations)
-
-  // console.log(renderCHeader(declarations))
-  // console.log(renderCImpl(declarations))
-  // console.log(renderSwift(declarations))
+  console.log(renderCHeader($, declarations))
+  // console.log(renderCImpl($, declarations))
+  // console.log(renderSwift($, declarations))
 }
 
 main()

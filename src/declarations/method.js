@@ -1,11 +1,11 @@
 const {getContextPath, getDataType} = require('../util')
 
-const MethodType = Object.freeze({
-  CONSTRUCTOR: Symbol('CONSTRUCTOR'),
-  DESTRUCTOR: Symbol('DESTRUCTOR'),
-  METHOD: Symbol('METHOD'),
-  OPERATORMETHOD: Symbol('OPERATORMETHOD')
-})
+const MethodType = {
+  CONSTRUCTOR: 'CONSTRUCTOR',
+  DESTRUCTOR: 'DESTRUCTOR',
+  METHOD: 'METHOD',
+  OPERATORMETHOD: 'OPERATORMETHOD'
+}
 
 const getMethodType = (node) => {
   const type = node.prop('nodeName')

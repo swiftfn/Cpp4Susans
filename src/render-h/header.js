@@ -1,20 +1,35 @@
-const renderHeader = (declarations) => {
+const {renderClassHeader} = require('./class')
+const {renderEnumHeader} = require('./enum')
+const {renderFieldHeader} = require('./field')
+const {renderMethodHeader} = require('./method')
+const {renderStructHeader} = require('./struct')
+
+// For avoiding cyclic dependencies
+const registry = {
+  'class': renderClassHeader,
+  'enum': renderEnumHeader,
+  'field': renderFieldHeader,
+  'method': renderMethodHeader,
+  'struct': renderStructHeader
+}
+
+const renderCHeader = ($, declarations) => {
+  const render = (declaration) => {
+    const {type} = declaration
+    const renderFunc = registry[type]
+    if (!renderFunc) {
+      throw new Error(`Invalid declaration type: ${type}`)
+    }
+    return renderFunc($, declaration, render)
+  }
+
   let ret = `#ifdef __cplusplus
 extern "C" {
 #endif
 
 `
   for (const d of declarations) {
-    switch (d.type) {
-      case 'enum':
-      case 'struct':
-      case 'class':
-        break;
-
-      default:
-        break;
-    }
-    // ret += s.renderHeader(d)
+    ret += render(d)
   }
 
   ret += `
@@ -26,5 +41,5 @@ extern "C" {
 }
 
 module.exports = {
-  renderHeader
+  renderCHeader
 }

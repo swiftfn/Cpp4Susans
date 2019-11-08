@@ -1,8 +1,8 @@
 const {MethodType} = require('../declarations/method')
 const {getContextPath, getDataType} = require('../util')
 
-const getMethodName = (type, node) => {
-  switch (type) {
+const getMethodName = (methodType, node) => {
+  switch (methodType) {
     case MethodType.CONSTRUCTOR:
       return 'constructor'
 
@@ -13,10 +13,11 @@ const getMethodName = (type, node) => {
       return node.attr('name')
 
     case MethodType.OPERATORMETHOD:
+      // TODO Convert to valid C function name
       return node.attr('name')
 
     default:
-      throw new Error(`Unknown method type: ${type}`)
+      throw new Error(`Unknown method type: ${methodType}`)
   }
 }
 
@@ -36,24 +37,25 @@ const renderArgs = ($, args) => {
   return acc.join(',\n')
 }
 
-const renderSignature = () => {
-  const name = getMethodName(this.type, this.node)
-  const suffix = this.isStatic ? '_static' : ''
-  const args = this.args.length === 0
+const renderMethodSignature = ($, declaration) => {
+  const {node, isStatic, methodType, returns, args} = declaration
+  const name = getMethodName(methodType, node)
+  const suffix = isStatic ? '_static' : ''
+  const renderedArgs = args.length === 0
     ? '()'
-    : '(\n' + renderArgs(this.$, this.args) + '\n)'
+    : '(\n' + renderArgs($, args) + '\n)'
   return (
-    this.returns + ' ' +
-    getContextPath(this.$, this.node) + '_' + name + suffix +
-    args
+    returns + ' ' +
+    getContextPath($, node) + '_' + name + suffix +
+    renderedArgs
   )
 }
 
-const renderHeader = () => {
-  return `${this.renderSignature()};`
+const renderMethodHeader = ($, declaration) => {
+  return renderMethodSignature($, declaration) + ';'
 }
 
 module.exports = {
-  renderSignature
-  renderHeader
+  renderMethodSignature,
+  renderMethodHeader
 }

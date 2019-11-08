@@ -1,7 +1,7 @@
-const renderGroups = (groups, renderMember) =>
+const renderGroups = (groups, render) =>
   groups.map((group) =>
     group.map((member) =>
-      renderMember(member)
+      render(member)
     ).join('\n')
   ).join('\n')
 
