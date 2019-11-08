@@ -1,10 +1,6 @@
-const {getDataType, getMemberIds, isArtificial, isPublic} = require('../util')
+const {getMemberIds, isArtificial, isPublic} = require('../util')
 
-const {collectEnum} = require('./enum')
-const {collectField} = require('./field')
-const {MethodType, collectMethod} = require('./method')
-
-const collectClassOrStruct = ($, node) => {
+const collectClassOrStruct = ($, node, collect) => {
   const staticFields = []
   const staticMethods = []
 
@@ -33,22 +29,22 @@ const collectClassOrStruct = ($, node) => {
     const type = member.prop('nodeName')
     switch (type) {
       case 'FIELD': {
-        fields.push(collectField($, member))
+        fields.push(collect(member))
         break
       }
 
       case 'CONSTRUCTOR': {
-        constructors.push(collectMethod($, member))
+        constructors.push(collect(member))
         break
       }
 
       case 'DESTRUCTOR': {
-        destructors.push(collectMethod($, member))
+        destructors.push(collect(member))
         break
       }
 
       case 'METHOD': {
-        const method = collectMethod($, member)
+        const method = collect(member)
         if (method.isStatic) {
           staticMethods.push(method)
         } else {
@@ -58,22 +54,22 @@ const collectClassOrStruct = ($, node) => {
       }
 
       case 'OPERATORMETHOD': {
-        operators.push(collectMethod($, member))
+        operators.push(collect(member))
         break
       }
 
       case 'ENUMERATION': {
-        enums.push(collectEnum($, member))
+        enums.push(collect(member))
         break
       }
 
       case 'CLASS': {
-        classes.push(collectClassOrStruct($, member))
+        classes.push(collect(member))
         break
       }
 
       case 'STRUCT': {
-        structs.push(collectClassOrStruct($, member))
+        structs.push(collect(member))
         break
       }
 
@@ -107,6 +103,11 @@ const collectClassOrStruct = ($, node) => {
   }
 }
 
+const register = (registry) => {
+  registry['CLASS'] = collectClassOrStruct
+  registry['STRUCT'] = collectClassOrStruct
+}
+
 module.exports = {
-  collectClassOrStruct
+  register
 }

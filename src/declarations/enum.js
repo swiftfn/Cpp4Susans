@@ -6,6 +6,10 @@ const collectEnum = ($, node) => {
   }
 }
 
+const register = (registry) => {
+  registry['ENUMERATION'] = collectEnum
+}
+
 module.exports = {
-  collectEnum
+  register
 }

@@ -35,6 +35,10 @@ ${renderGroups(groups2, render)}
 `
 }
 
+const register = (registry) => {
+  registry['class'] = renderClassHeader
+}
+
 module.exports = {
-  renderClassHeader
+  register
 }

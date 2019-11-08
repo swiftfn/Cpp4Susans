@@ -37,6 +37,10 @@ ${renderGroups(groups2, render)}
 `
 }
 
+const register = (registry) => {
+  registry['struct'] = renderStructHeader
+}
+
 module.exports = {
-  renderStructHeader
+  register
 }

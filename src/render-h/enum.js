@@ -23,6 +23,10 @@ ${renderValues($, values)}
 };`
 }
 
+const register = (registry) => {
+  registry['enum'] = renderEnumHeader
+}
+
 module.exports = {
-  renderEnumHeader
+  register
 }

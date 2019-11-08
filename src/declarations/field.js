@@ -5,6 +5,10 @@ const collectField = ($, node) => {
   }
 }
 
+const register = (registry) => {
+  registry['FIELD'] = collectField
+}
+
 module.exports = {
-  collectField
+  register
 }

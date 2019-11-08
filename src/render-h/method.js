@@ -55,7 +55,11 @@ const renderMethodHeader = ($, declaration) => {
   return renderMethodSignature($, declaration) + ';'
 }
 
+const register = (registry) => {
+  registry['method'] = renderMethodHeader
+}
+
 module.exports = {
   renderMethodSignature,
-  renderMethodHeader
+  register
 }

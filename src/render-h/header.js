@@ -5,13 +5,13 @@ const {renderMethodHeader} = require('./method')
 const {renderStructHeader} = require('./struct')
 
 // For avoiding cyclic dependencies
-const registry = {
-  'class': renderClassHeader,
-  'enum': renderEnumHeader,
-  'field': renderFieldHeader,
-  'method': renderMethodHeader,
-  'struct': renderStructHeader
-}
+const registry = {}
+require('./class').register(registry)
+require('./enum').register(registry)
+require('./field').register(registry)
+require('./function').register(registry)
+require('./method').register(registry)
+require('./struct').register(registry)
 
 const renderCHeader = ($, declarations) => {
   const render = (declaration) => {

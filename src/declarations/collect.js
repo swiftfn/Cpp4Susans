@@ -1,7 +1,12 @@
 const {isTopScope} = require('../util')
 
-const {collectClassOrStruct} = require('./class-struct')
-const {collectEnum} = require('./enum')
+// For avoiding cyclic dependencies
+const registry = {}
+require('./class-struct').register(registry)
+require('./enum').register(registry)
+require('./field').register(registry)
+require('./function').register(registry)
+require('./method').register(registry)
 
 const getHeaderFileId = ($, fileName) => {
   const elem = $(`File[name$="/${fileName}"]`)
@@ -18,6 +23,15 @@ const getTopNodes = ($, fileId) => {
 }
 
 const getDeclarations = ($, topNodes) => {
+  const collect = (node) => {
+    const type = node.prop('nodeName')
+    const collectFunc = registry[type]
+    if (!collectFunc) {
+      throw new Error(`Invalid node type: ${type}`)
+    }
+    return collectFunc($, node, collect)
+  }
+
   const declarations = []
 
   topNodes.each((idx, node) => {
@@ -27,28 +41,7 @@ const getDeclarations = ($, topNodes) => {
       return
     }
 
-    const type = node.prop('nodeName')
-    switch (type) {
-      case 'CLASS':
-      case 'STRUCT': {
-        declarations.push(collectClassOrStruct($, node))
-        break
-      }
-
-      case 'OPERATORFUNCTION': {
-        // TODO
-        break
-      }
-
-      case 'ENUMERATION': {
-        declarations.push(collectEnum($, node))
-        break
-      }
-
-      default: {
-        console.log(`Unhandled node type "${type}"`, node)
-      }
-    }
+    declarations.push(collect(node))
   })
 
   return declarations

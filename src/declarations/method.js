@@ -37,7 +37,14 @@ const collectMethod = ($, node) => {
   }
 }
 
+const register = (registry) => {
+  const methodTypes = Object.keys(MethodType)
+  for (const methodType of methodTypes) {
+    registry[methodType] = collectMethod
+  }
+}
+
 module.exports = {
   MethodType,
-  collectMethod
+  register
 }
