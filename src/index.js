@@ -2,8 +2,7 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 
 const {collectDeclarations} = require('./declarations/collect')
-const {renderCImpl} = require('./render-c/impl')
-const {renderCHeader} = require('./render-h/header')
+const {renderC} = require('./render-c/c')
 const {renderSwift} = require('./render-swift/swift')
 
 const CAST_XML = 'input/SkSize.xml'
@@ -22,8 +21,7 @@ async function main() {
   const $ = await loadXml(CAST_XML)
   const declarations = collectDeclarations($, CPP_HEADER)
 
-  console.log(renderCHeader($, declarations))
-  // console.log(renderCImpl($, declarations))
+  console.log(renderC($, declarations))
   // console.log(renderSwift($, declarations))
 }
 

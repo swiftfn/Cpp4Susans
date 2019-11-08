@@ -1,4 +1,4 @@
-const {getContextPath, FunctionType} = require('../castxml')
+const {getContextPath, FunctionType} = require('../../castxml')
 const {renderArg, renderArgs} = require('./arg')
 
 const getFunctionName = (functionType, node) => {

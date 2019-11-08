@@ -1,4 +1,4 @@
-const {getDataType} = require('../castxml')
+const {getDataType} = require('../../castxml')
 
 const renderValue = ($, value) => {
   const node = $(value)

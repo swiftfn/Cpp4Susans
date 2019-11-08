@@ -1,15 +1,12 @@
-const {createRegistry} = require('../registry')
+const {createRegistry} = require('../../registry')
 
 const registry = createRegistry([
-  require('./class'),
-  require('./enum'),
-  require('./field'),
+  require('./class-struct'),
   require('./function'),
-  require('./method'),
-  require('./struct')
+  require('./method')
 ])
 
-const renderCHeader = ($, declarations) => {
+const renderImpl = ($, declarations) => {
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
@@ -19,24 +16,16 @@ const renderCHeader = ($, declarations) => {
     return renderFunc($, declaration, render)
   }
 
-  let ret = `#ifdef __cplusplus
-extern "C" {
-#endif
+  let ret = `#include "${CPP_HEADER}"
+#include "c_${CPP_HEADER}"\n`
 
-`
   for (const d of declarations) {
     ret += render(d)
   }
 
-  ret += `
-
-#ifdef __cplusplus
-}
-#endif
-`
   return ret
 }
 
 module.exports = {
-  renderCHeader
+  renderImpl
 }

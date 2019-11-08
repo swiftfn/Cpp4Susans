@@ -1,11 +1,12 @@
-const {getDataType} = require('../castxml')
+const {getDataType} = require('../../castxml')
 const {renderGroups} = require('./class-struct')
 
-const renderClassHeader = ($, declaration, render) => {
+const renderStructHeader = ($, declaration, render) => {
   const {
     node,
     enums, structs, classes,
-    staticMethods,
+    staticFields, staticMethods,
+    fields,
     constructors, destructors,
     methods, operators
   } = declaration
@@ -19,6 +20,11 @@ const renderClassHeader = ($, declaration, render) => {
   ]
 
   const groups2 = [
+    staticFields,
+    fields
+  ]
+
+  const groups3 = [
     staticMethods,
     constructors,
     destructors,
@@ -29,14 +35,16 @@ const renderClassHeader = ($, declaration, render) => {
   return `
 ${renderGroups(groups1, render)}
 
-typedef struct ${name} ${name};
-
+typedef struct ${name} {
 ${renderGroups(groups2, render)}
+} ${name};
+
+${renderGroups(groups3, render)}
 `
 }
 
 const register = (registry) => {
-  registry['class'] = renderClassHeader
+  registry['struct'] = renderStructHeader
 }
 
 module.exports = {
