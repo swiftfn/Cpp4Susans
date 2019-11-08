@@ -1,11 +1,11 @@
 const {createRegistry} = require('../../registry')
 
 const registry = createRegistry([
+  require('./class-struct'),
   require('./enum'),
   require('./field'),
   require('./function'),
-  require('./method'),
-  require('./struct')
+  require('./method')
 ])
 
 const renderCHeader = ($, declarations) => {

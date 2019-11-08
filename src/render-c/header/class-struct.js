@@ -3,6 +3,7 @@ const {renderGroups} = require('../groups')
 
 const renderClassStructHeader = ($, declaration, render) => {
   const {
+    type,
     node,
     enums, structs, classes,
     staticFields, staticMethods,
@@ -49,6 +50,7 @@ ${renderGroups(groups2, render)}
   return `
 ${renderGroups(groups1, render)}
 
+${type === 'class' ? renderClass() : renderStruct()}
 
 ${renderGroups(groups3, render)}
 `
