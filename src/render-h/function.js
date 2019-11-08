@@ -17,13 +17,10 @@ const getFunctionName = (functionType, node) => {
 const renderFunctionSignature = ($, declaration) => {
   const {node, functionType, returns, args} = declaration
   const name = getFunctionName(functionType, node)
-  const renderedArgs = args.length === 0
-    ? '()'
-    : '(\n' + renderArgs($, args) + '\n)'
   return (
     returns + ' ' +
     getContextPath($, node) + '_' + name +
-    renderedArgs
+    renderArgs($, args)
   )
 }
 

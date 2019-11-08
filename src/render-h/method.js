@@ -27,13 +27,13 @@ const renderMethodSignature = ($, declaration) => {
   const {node, isStatic, methodType, returns, args} = declaration
   const name = getMethodName(methodType, node)
   const suffix = isStatic ? '_static' : ''
-  const renderedArgs = args.length === 0
-    ? '()'
-    : '(\n' + renderArgs($, args) + '\n)'
+  const self = !isStatic && methodType !== MethodType.CONSTRUCTOR
+    ? node.attr('context')
+    : undefined
   return (
     returns + ' ' +
     getContextPath($, node) + '_' + name + suffix +
-    renderedArgs
+    renderArgs($, args, self)
   )
 }
 
