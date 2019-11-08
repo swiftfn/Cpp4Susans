@@ -28,7 +28,7 @@ const renderFunctionSignature = ($, declaration) => {
 }
 
 const renderFunctionHeader = ($, declaration) => {
-  return renderFunctionSignature($, declaration) + ';'
+  return renderFunctionSignature($, declaration) + ';\n'
 }
 
 const register = (registry) => {

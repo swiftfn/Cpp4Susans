@@ -33,6 +33,7 @@ extern "C" {
   }
 
   ret += `
+
 #ifdef __cplusplus
 }
 #endif
