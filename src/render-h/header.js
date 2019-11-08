@@ -1,17 +1,19 @@
+const {createRegistry} = require('../registry')
+
 const {renderClassHeader} = require('./class')
 const {renderEnumHeader} = require('./enum')
 const {renderFieldHeader} = require('./field')
 const {renderMethodHeader} = require('./method')
 const {renderStructHeader} = require('./struct')
 
-// For avoiding cyclic dependencies
-const registry = {}
-require('./class').register(registry)
-require('./enum').register(registry)
-require('./field').register(registry)
-require('./function').register(registry)
-require('./method').register(registry)
-require('./struct').register(registry)
+const registry = createRegistry([
+  require('./class'),
+  require('./enum'),
+  require('./field'),
+  require('./function'),
+  require('./method'),
+  require('./struct')
+])
 
 const renderCHeader = ($, declarations) => {
   const render = (declaration) => {

@@ -1,12 +1,13 @@
 const {hasNoContext} = require('../castxml')
+const {createRegistry} = require('../registry')
 
-// For avoiding cyclic dependencies
-const registry = {}
-require('./class-struct').register(registry)
-require('./enum').register(registry)
-require('./field').register(registry)
-require('./function').register(registry)
-require('./method').register(registry)
+const registry = createRegistry([
+  require('./class-struct'),
+  require('./enum'),
+  require('./field'),
+  require('./function'),
+  require('./method')
+])
 
 const getHeaderFileId = ($, fileName) => {
   const elem = $(`File[name$="/${fileName}"]`)
