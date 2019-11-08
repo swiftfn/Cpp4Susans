@@ -1,4 +1,19 @@
-const {getMemberIds, isArtificial, isPublic} = require('../util')
+const isPublic = (node) => {
+  // console.log(node[0])
+  return node.attr('access') === 'public'
+}
+
+// "Artificial" means default empty constructor and destructor
+const isArtificial = (node) => {
+  // console.log(node[0])
+  return node.attr('artificial') === '1'
+}
+
+const getMemberIds = (node) => {
+  // console.log(node[0])
+  const members = node.attr('members')
+  return members.split(' ')
+}
 
 const collectClassOrStruct = ($, node, collect) => {
   const staticFields = []

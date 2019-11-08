@@ -1,4 +1,4 @@
-const {isTopScope} = require('../util')
+const {hasNoContext} = require('../util')
 
 // For avoiding cyclic dependencies
 const registry = {}
@@ -12,6 +12,11 @@ const getHeaderFileId = ($, fileName) => {
   const elem = $(`File[name$="/${fileName}"]`)
   // console.log(elem)
   return elem.attr('id')
+}
+
+const isTopScope = (node) => {
+  // "incomplete" means forward declaration
+  return hasNoContext(node) && node.attr('incomplete') !== '1'
 }
 
 // Select top nodes of the header file
