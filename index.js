@@ -7,11 +7,11 @@ const {Enum} = require('./enum')
 const {StructOrClass} = require('./struct-class')
 const {isTopScope} = require('./util')
 
-const CAST_XML = 'input/SkSize.xml'
-const CPP_HEADER = 'SkSize.h'
+// const CAST_XML = 'input/SkSize.xml'
+// const CPP_HEADER = 'SkSize.h'
 
-// const CAST_XML = 'input/SkCanvas.xml'
-// const CPP_HEADER = 'SkCanvas.h'
+const CAST_XML = 'input/SkCanvas.xml'
+const CPP_HEADER = 'SkCanvas.h'
 
 const loadXml = (fileName) => {
   const xml = fs.readFileSync(fileName)

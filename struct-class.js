@@ -1,6 +1,6 @@
 const {Enum} = require('./enum')
 const {Method, MethodType} = require('./method')
-const {isPublic, getMemberIds} = require('./util')
+const {getDataType, getMemberIds, isPublic} = require('./util')
 
 class StructOrClass {
   constructor($, container) {
@@ -19,11 +19,10 @@ class StructOrClass {
     this.structsAndClasses = []
     this.enums = []
 
-    this.collect()
+    this.collectMembers()
   }
 
-  collect() {
-    const parentName = this.container.attr('name')
+  collectMembers() {
     const memberIds = getMemberIds(this.container)
     // console.log(memberIds)
 
@@ -44,20 +43,20 @@ class StructOrClass {
         }
 
         case 'CONSTRUCTOR': {
-          const method = new Method(parentName, false, MethodType.CONSTRUCTOR, member)
+          const method = new Method(this.$, member, false, MethodType.CONSTRUCTOR)
           this.constructors.push(method)
           break
         }
 
         case 'DESTRUCTOR': {
-          const method = new Method(parentName, false, MethodType.DESTRUCTOR, member)
+          const method = new Method(this.$, member, false, MethodType.DESTRUCTOR)
           this.destructors.push(method)
           break
         }
 
         case 'METHOD': {
           const isStatic = member.attr('static') === '1'
-          const method = new Method(parentName, isStatic, MethodType.NORMAL, member)
+          const method = new Method(this.$, member, isStatic, MethodType.NORMAL)
           if (isStatic) {
             this.staticMethods.push(method)
           } else {
@@ -67,7 +66,7 @@ class StructOrClass {
         }
 
         case 'OPERATORMETHOD': {
-          const method = new Method(parentName, false, MethodType.OPERATOR, member)
+          const method = new Method(this.$, member, false, MethodType.OPERATOR)
           this.operators.push(method)
           break
         }
@@ -96,7 +95,7 @@ class StructOrClass {
   }
 
   renderCHeader() {
-    const name = this.container.attr('name') + '_struct'
+    const name = getDataType(this.$, this.container)
     return `
 // Inner enums
 ${this.enums.map(m => m.renderCHeader()).join('\n')}

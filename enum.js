@@ -4,7 +4,6 @@ class Enum {
   constructor($, container) {
     this.$ = $
     this.container = container
-
     this.values = this.container.children('EnumValue')
   }
 

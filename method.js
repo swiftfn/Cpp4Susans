@@ -1,3 +1,5 @@
+const {getContextPath, getDataType} = require('./util')
+
 const MethodType = Object.freeze({
   CONSTRUCTOR: Symbol('CONSTRUCTOR'),
   DESTRUCTOR: Symbol('DESTRUCTOR'),
@@ -25,16 +27,24 @@ const getMethodName = (type, node) => {
 }
 
 class Method {
-  constructor(parentName, isStatic, type, node) {
-    this.parentName = parentName
+  constructor($, node, isStatic, type) {
+    this.$ = $
+    this.node = node
+
     this.isStatic = isStatic
     this.type = type
-    this.node = node
+
+    this.returns = type === MethodType.CONSTRUCTOR
+      ? getContextPath($, node)
+      : type === MethodType.DESTRUCTOR
+        ? 'void'
+        : getDataType($, node.attr('returns'))
+    this.args = node.children('Argument')
   }
 
   renderCSignature() {
     const name = getMethodName(this.type, this.node)
-    return `${this.parentName}_${name}()`
+    return this.returns + ' ' + getContextPath(this.$, this.node) + '_' + name + '()'
   }
 
   renderCHeader() {
