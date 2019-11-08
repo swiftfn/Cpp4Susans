@@ -1,5 +1,5 @@
-const {renderCHeader} = require('./header/header')
-const {renderCImpl} = require('./impl/impl')
+const {renderCHeader} = require('./header')
+const {renderCImpl} = require('./impl')
 
 const renderC = ($, declarations) => {
   console.log(renderCHeader($, declarations))

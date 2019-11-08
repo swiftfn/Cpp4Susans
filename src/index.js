@@ -1,9 +1,9 @@
 const fs = require('fs')
 const cheerio = require('cheerio')
 
-const {collectDeclarations} = require('./declarations/collect')
-const {renderC} = require('./render-c/c')
-const {renderSwift} = require('./render-swift/swift')
+const {collectDeclarations} = require('./declarations')
+const {renderC} = require('./render-c')
+const {renderSwift} = require('./render-swift')
 
 const CAST_XML = 'input/SkSize.xml'
 const CPP_HEADER = 'SkSize.h'
