@@ -17,12 +17,21 @@ const loadXml = (fileName) => {
   return cheerio.load(xml, {xmlMode: true})
 }
 
+const writeOutput = (files) => {
+  const fileNames = Object.keys(files)
+  for (const fileName of fileNames) {
+    const content = files[fileName]
+    console.log(fileName)
+    console.log(content)
+  }
+}
+
 async function main() {
   const $ = await loadXml(CAST_XML)
   const declarations = collectDeclarations($, CPP_HEADER)
 
-  console.log(renderC($, declarations))
-  // console.log(renderSwift($, declarations))
+  writeOutput(renderC($, declarations, CPP_HEADER))
+  // writeOutput(renderSwift($, declarations))
 }
 
 main()

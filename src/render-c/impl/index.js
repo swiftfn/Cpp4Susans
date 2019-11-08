@@ -6,7 +6,7 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const renderImpl = ($, declarations) => {
+const renderCImpl = ($, declarations, cppHeaderFileName, cHeaderFileName) => {
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
@@ -16,8 +16,8 @@ const renderImpl = ($, declarations) => {
     return renderFunc($, declaration, render)
   }
 
-  let ret = `#include "${CPP_HEADER}"
-#include "c_${CPP_HEADER}"\n`
+  let ret = `#include "${cppHeaderFileName}"
+#include "${cHeaderFileName}"\n`
 
   for (const d of declarations) {
     ret += render(d)
@@ -27,5 +27,5 @@ const renderImpl = ($, declarations) => {
 }
 
 module.exports = {
-  renderImpl
+  renderCImpl
 }
