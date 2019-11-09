@@ -1,6 +1,6 @@
 const collectField = ($, node) => {
   return {
-    type: 'field',
+    type: 'FIELD',
     node
   }
 }

@@ -1,15 +1,22 @@
+const {getCppHeaderBaseFileName, getCHeaderFileName, getCImplFileName} = require('./file')
 const {renderCHeader} = require('./header')
 const {renderCImpl} = require('./impl')
 
 const renderC = ($, declarations, cppHeaderFileName) => {
-  const cppHeaderBaseFileName = cppHeaderFileName.substring(0, cppHeaderFileName.indexOf('.'))
-  const cHeaderSignature = `${cppHeaderBaseFileName}_C_HEADER`
-  const cHeaderFileName = `${cppHeaderBaseFileName}_c.h`
-  const cImplFileName = `${cppHeaderBaseFileName}_c.c`
+  const cppHeaderBaseFileName = getCppHeaderBaseFileName(cppHeaderFileName)
+  const cHeaderFileName = getCHeaderFileName(cppHeaderBaseFileName)
+  const cImplFileName = getCImplFileName(cppHeaderBaseFileName)
+
+  const files = {
+    cppHeaderFileName,
+    cppHeaderBaseFileName,
+    cHeaderFileName,
+    cImplFileName
+  }
 
   return output = {
-    [cHeaderFileName]: renderCHeader($, declarations, cHeaderSignature),
-    [cImplFileName]: renderCImpl($, declarations, cppHeaderFileName, cHeaderFileName)
+    [cHeaderFileName]: renderCHeader($, declarations, files),
+    [cImplFileName]: renderCImpl($, declarations, files)
   }
 }
 

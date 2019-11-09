@@ -100,7 +100,7 @@ const collectClassOrStruct = ($, node, collect) => {
   }
 
   return {
-    type: node.prop('nodeName').toLowerCase(),  // 'class' or 'struct'
+    type: node.prop('nodeName'),  // 'CLASS' or 'STRUCT'
     node,
 
     staticFields,

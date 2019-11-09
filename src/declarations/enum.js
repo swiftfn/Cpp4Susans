@@ -1,6 +1,6 @@
 const collectEnum = ($, node) => {
   return {
-    type: 'enum',
+    type: 'ENUMERATION',
     node,
     values: node.children('EnumValue')
   }

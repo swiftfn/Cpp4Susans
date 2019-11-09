@@ -5,7 +5,7 @@ const renderFieldHeader = ($, declaration) => {
 }
 
 const register = (registry) => {
-  registry['field'] = renderFieldHeader
+  registry['FIELD'] = renderFieldHeader
 }
 
 module.exports = {

@@ -1,32 +1,29 @@
-const {getContextPath, MethodType} = require('../../castxml')
+const {getContextPath} = require('../../castxml')
 
 const {renderArg, renderArgs} = require('./arg')
 
 const getMethodName = (methodType, node) => {
   switch (methodType) {
-    case MethodType.CONSTRUCTOR:
+    case 'CONSTRUCTOR':
       return 'constructor'
 
-    case MethodType.DESTRUCTOR:
+    case 'DESTRUCTOR':
       return 'destructor'
 
-    case MethodType.METHOD:
-      return node.attr('name')
+    case 'METHOD':
+      return node.attr('name') + '_method'
 
-    case MethodType.OPERATORMETHOD:
+    case 'OPERATORMETHOD':
       // TODO Convert to valid C function name
-      return node.attr('name')
-
-    default:
-      throw new Error(`Unknown method type: ${methodType}`)
+      return node.attr('name') + '_op_method'
   }
 }
 
 const renderMethodSignature = ($, declaration) => {
-  const {node, isStatic, methodType, returns, args} = declaration
-  const name = getMethodName(methodType, node)
+  const {type, node, isStatic, returns, args} = declaration
+  const name = getMethodName(type, node)
   const suffix = isStatic ? '_static' : ''
-  const self = !isStatic && methodType !== MethodType.CONSTRUCTOR
+  const self = !isStatic && type !== 'CONSTRUCTOR'
     ? node.attr('context')
     : undefined
   return (
@@ -41,7 +38,10 @@ const renderMethodHeader = ($, declaration) => {
 }
 
 const register = (registry) => {
-  registry['method'] = renderMethodHeader
+  registry['CONSTRUCTOR'] = renderMethodHeader
+  registry['DESTRUCTOR'] = renderMethodHeader
+  registry['METHOD'] = renderMethodHeader
+  registry['OPERATORMETHOD'] = renderMethodHeader
 }
 
 module.exports = {

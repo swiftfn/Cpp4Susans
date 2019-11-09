@@ -1,43 +1,30 @@
-const {getContextPath, getDataType, MethodType} = require('../castxml')
-
-const getMethodType = (node) => {
-  const type = node.prop('nodeName')
-  const validTypes = Object.keys(MethodType)
-  if (!validTypes.includes(type)) {
-    throw new Error(`Invalid method type: ${type}`)
-  }
-  return type
-}
+const {getContextPath, getDataType} = require('../castxml')
 
 const getReturnType = ($, node, methodType) =>
-  methodType === MethodType.CONSTRUCTOR
+  methodType === 'CONSTRUCTOR'
     ? getContextPath($, node)
-    : methodType === MethodType.DESTRUCTOR
+    : methodType === 'DESTRUCTOR'
       ? 'void'
       : getDataType($, node.attr('returns'))
 
 const collectMethod = ($, node) => {
-  const methodType = getMethodType(node)
+  const methodType = node.prop('nodeName')
   return {
-    type: 'method',
+    type: methodType,
     node,
-
     isStatic: node.attr('static') === '1',
-    methodType,
-
     returns: getReturnType($, node, methodType),
     args: node.children('Argument')
   }
 }
 
 const register = (registry) => {
-  const methodTypes = Object.keys(MethodType)
-  for (const methodType of methodTypes) {
-    registry[methodType] = collectMethod
-  }
+  registry['CONSTRUCTOR'] = collectMethod
+  registry['DESTRUCTOR'] = collectMethod
+  registry['METHOD'] = collectMethod
+  registry['OPERATORMETHOD'] = collectMethod
 }
 
 module.exports = {
-  MethodType,
   register
 }

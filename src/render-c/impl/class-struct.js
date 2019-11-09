@@ -20,8 +20,8 @@ const renderClassStructImpl = ($, declaration, render) => {
 }
 
 const register = (registry) => {
-  registry['class'] = renderClassStructImpl
-  registry['struct'] = renderClassStructImpl
+  registry['CLASS'] = renderClassStructImpl
+  registry['STRUCT'] = renderClassStructImpl
 }
 
 module.exports = {

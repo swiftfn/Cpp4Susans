@@ -1,37 +1,35 @@
-const {FunctionType} = require('../../castxml')
 const {renderArg, renderArgs} = require('./arg')
 
-const getFunctionName = (functionType, node) => {
-  switch (functionType) {
-    case FunctionType.OPERATORFUNCTION:
-      // TODO Convert to valid C function name
-      return node.attr('name')
-
-    default:
-      throw new Error(`Unknown function type: ${functionType}`)
-  }
+const getOptFunctionName = (node) => {
+  // TODO Convert to valid C function name
+  return node.attr('name') + '_op'
 }
 
-const renderFunctionSignature = ($, declaration) => {
-  const {node, functionType, returns, args} = declaration
-  const name = getFunctionName(functionType, node)
+const getFunctionName = {
+  OPERATORFUNCTION: getOptFunctionName
+}
+
+const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
+  const {type, node, returns, args} = declaration
+  const name = getFunctionName[type](node)
   return (
     returns + ' ' +
-    name + '_function' +
+    // getContextPath returns empty result because the function is at top level,
+    // we need to prefix with cppHeaderBaseFileName so that there's no conflict among files
+    cppHeaderBaseFileName + '_' + name + '_function' +
     renderArgs($, args)
   )
 }
 
-const renderFunctionHeader = ($, declaration) => {
-  return renderFunctionSignature($, declaration) + ';\n'
+const renderFunctionHeader = ($, declaration, render, cppHeaderBaseFileName) => {
+  return renderFunctionSignature($, declaration, cppHeaderBaseFileName) + ';\n'
 }
 
 const register = (registry) => {
-  registry['function'] = renderFunctionHeader
+  registry['OPERATORFUNCTION'] = renderFunctionHeader
 }
 
 module.exports = {
-  getFunctionName,
   renderFunctionSignature,
   register
 }

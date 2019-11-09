@@ -6,14 +6,16 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const renderCImpl = ($, declarations, cppHeaderFileName, cHeaderFileName) => {
+const renderCImpl = ($, declarations, files) => {
+  const {cppHeaderFileName, cppHeaderBaseFileName, cHeaderFileName} = files
+
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)
     }
-    return renderFunc($, declaration, render)
+    return renderFunc($, declaration, render, cppHeaderBaseFileName)
   }
 
   let ret = `#include "${cppHeaderFileName}"

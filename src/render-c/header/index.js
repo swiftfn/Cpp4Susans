@@ -8,14 +8,17 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const renderCHeader = ($, declarations, headerSignature) => {
+const renderCHeader = ($, declarations, files) => {
+  const {cppHeaderBaseFileName} = files
+  const headerSignature = `${cppHeaderBaseFileName}_C_HEADER`
+
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)
     }
-    return renderFunc($, declaration, render)
+    return renderFunc($, declaration, render, cppHeaderBaseFileName)
   }
 
   let ret = `#ifndef ${headerSignature}

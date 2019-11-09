@@ -1,7 +1,7 @@
 const {renderMethodSignature} = require('../header/method')
 
 const renderMethodImpl = ($, declaration) => {
-  const {node, isStatic, methodType, returns, args} = declaration
+  const {node, isStatic, returns, args} = declaration
   return `
 ${renderMethodSignature($, declaration)} {
   return
@@ -10,7 +10,10 @@ ${renderMethodSignature($, declaration)} {
 }
 
 const register = (registry) => {
-  registry['method'] = renderMethodImpl
+  registry['CONSTRUCTOR'] = renderMethodImpl
+  registry['DESTRUCTOR'] = renderMethodImpl
+  registry['METHOD'] = renderMethodImpl
+  registry['OPERATORMETHOD'] = renderMethodImpl
 }
 
 module.exports = {

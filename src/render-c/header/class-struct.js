@@ -1,6 +1,34 @@
 const {getDataType} = require('../../castxml')
 const {renderGroups} = require('../groups')
 
+// C cannot access C++ class members.
+// From C, access C++ class objects as opaque pointers, via public methods.
+// Example: https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/sk_types_priv.h
+const renderClassHeader = ($, declaration) => {
+  const {node} = declaration
+  const name = getDataType($, node)
+  return `
+typedef struct ${name} ${name};
+`
+}
+
+// C cann access C++ struct fields directly.
+// Just type cast.
+const renderStructHeader = ($, declaration, render) => {
+  const {node, staticFields, fields} = declaration
+  const name = getDataType($, node)
+  return `
+typedef struct ${name} {
+${renderGroups([staticFields, fields], render)}
+} ${name};
+`
+}
+
+const doRender = {
+  CLASS: renderClassHeader,
+  STRUCT: renderStructHeader
+}
+
 const renderClassStructHeader = ($, declaration, render) => {
   const {
     type,
@@ -12,8 +40,6 @@ const renderClassStructHeader = ($, declaration, render) => {
     methods, operators
   } = declaration
 
-  const name = getDataType($, node)
-
   const groups1 = [
     enums,
     structs,
@@ -21,11 +47,6 @@ const renderClassStructHeader = ($, declaration, render) => {
   ]
 
   const groups2 = [
-    staticFields,
-    fields
-  ]
-
-  const groups3 = [
     staticMethods,
     constructors,
     destructors,
@@ -33,37 +54,18 @@ const renderClassStructHeader = ($, declaration, render) => {
     operators
   ]
 
-  // C cannot access C++ class members.
-  // From C, access C++ class objects as opaque pointers, via public methods.
-  // Example: https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/sk_types_priv.h
-  const renderClass = () => {
-    return `
-typedef struct ${name} ${name};
-`
-  }
-
-  // C cann access C++ struct fields directly.
-  // Just type cast.
-  const renderStruct = () => {
-    return `
-typedef struct ${name} {
-${renderGroups(groups2, render)}
-} ${name};
-`
-  }
-
   return `
 ${renderGroups(groups1, render)}
 
-${type === 'class' ? renderClass() : renderStruct()}
+${doRender[type]($, declaration, render)}
 
-${renderGroups(groups3, render)}
+${renderGroups(groups2, render)}
 `
 }
 
 const register = (registry) => {
-  registry['class'] = renderClassStructHeader
-  registry['struct'] = renderClassStructHeader
+  registry['CLASS'] = renderClassStructHeader
+  registry['STRUCT'] = renderClassStructHeader
 }
 
 module.exports = {
