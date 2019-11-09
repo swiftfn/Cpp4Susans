@@ -33,12 +33,17 @@ const renderClassStructHeader = ($, declaration, render) => {
     operators
   ]
 
+  // C cannot access C++ class members.
+  // From C, access C++ class objects as opaque pointers, via public methods.
+  // Example: https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/sk_types_priv.h
   const renderClass = () => {
     return `
 typedef struct ${name} ${name};
 `
   }
 
+  // C cann access C++ struct fields directly.
+  // Just type cast.
   const renderStruct = () => {
     return `
 typedef struct ${name} {
