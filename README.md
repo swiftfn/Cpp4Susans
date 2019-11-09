@@ -8,6 +8,7 @@ Supported languages:
 
 Successfully works for C++ libraries:
 * [Skia](https://github.com/google/skia): in progress
+* Other libraries: please try and report
 
 ## Run
 
