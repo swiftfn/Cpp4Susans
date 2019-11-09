@@ -1,4 +1,4 @@
-const {getContextPath, FunctionType} = require('../../castxml')
+const {FunctionType} = require('../../castxml')
 const {renderArg, renderArgs} = require('./arg')
 
 const getFunctionName = (functionType, node) => {
@@ -17,7 +17,7 @@ const renderFunctionSignature = ($, declaration) => {
   const name = getFunctionName(functionType, node)
   return (
     returns + ' ' +
-    getContextPath($, node) + '_' + name +
+    name + '_function' +
     renderArgs($, args)
   )
 }
@@ -31,6 +31,7 @@ const register = (registry) => {
 }
 
 module.exports = {
+  getFunctionName,
   renderFunctionSignature,
   register
 }
