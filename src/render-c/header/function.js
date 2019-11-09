@@ -1,12 +1,13 @@
+const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
-const getOptFunctionName = (node) => {
-  // TODO Convert to valid C function name
-  return node.attr('name') + '_op'
+const getOpFunctionName = (node) => {
+  const opName = node.attr('name')
+  return convertOperatorName(opName) + '_op'
 }
 
 const getFunctionName = {
-  OPERATORFUNCTION: getOptFunctionName
+  OPERATORFUNCTION: getOpFunctionName
 }
 
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {

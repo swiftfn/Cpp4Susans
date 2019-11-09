@@ -1,4 +1,5 @@
 const {getContextPath} = require('../../castxml')
+const {convertOperatorName} = require('../op')
 
 const {renderArg, renderArgs} = require('./arg')
 
@@ -14,8 +15,8 @@ const getMethodName = (methodType, node) => {
       return node.attr('name') + '_method'
 
     case 'OPERATORMETHOD':
-      // TODO Convert to valid C function name
-      return node.attr('name') + '_op_method'
+      const opName = node.attr('name')
+      return convertOperatorName(opName) + '_op_method'
   }
 }
 
