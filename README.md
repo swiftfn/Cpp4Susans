@@ -7,7 +7,7 @@ Supported languages:
 * Other languages: please contribute
 
 Successfully works for C++ libraries:
-* Skia: in progress
+* [Skia](https://github.com/google/skia): in progress
 
 ## Run
 
