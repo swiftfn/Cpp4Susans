@@ -1,4 +1,4 @@
-const {getDataType} = require('../../castxml')
+const {getDataType} = require('../data')
 const {renderGroups} = require('../groups')
 
 // C cannot access C++ class members.

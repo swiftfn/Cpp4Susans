@@ -1,3 +1,4 @@
+const {getDataType} = require('../data')
 const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
@@ -14,8 +15,8 @@ const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
   const {type, node, returns, args} = declaration
   const name = getFunctionName[type](node)
   return (
-    returns + ' ' +
-    // getContextPath returns empty result because the function is at top level,
+    getDataType($, returns) + ' ' +
+    // getContextPath returns empty result because functions are at top level,
     // we need to prefix with cppHeaderBaseFileName so that there's no conflict among files
     cppHeaderBaseFileName + '_' + name + '_function' +
     renderArgs($, args)

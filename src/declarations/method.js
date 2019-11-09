@@ -1,19 +1,10 @@
-const {getContextPath, getDataType} = require('../castxml')
-
-const getReturnType = ($, node, methodType) =>
-  methodType === 'CONSTRUCTOR'
-    ? getContextPath($, node)
-    : methodType === 'DESTRUCTOR'
-      ? 'void'
-      : getDataType($, node.attr('returns'))
-
 const collectMethod = ($, node) => {
   const methodType = node.prop('nodeName')
   return {
     type: methodType,
     node,
     isStatic: node.attr('static') === '1',
-    returns: getReturnType($, node, methodType),
+    returns: node.attr('returns'),
     args: node.children('Argument')
   }
 }
