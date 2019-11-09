@@ -8,7 +8,7 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const renderCHeader = ($, declarations) => {
+const renderCHeader = ($, declarations, headerSignature) => {
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
@@ -18,7 +18,10 @@ const renderCHeader = ($, declarations) => {
     return renderFunc($, declaration, render)
   }
 
-  let ret = `#ifdef __cplusplus
+  let ret = `#ifndef ${headerSignature}
+#define ${headerSignature}
+
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -31,6 +34,8 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 `
   return ret
