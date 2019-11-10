@@ -8,39 +8,41 @@ const withContextPath = ($, node, name) => {
 
 const getCDataType = ($, idOrNode) => {
   const node = typeof idOrNode === 'string' ? $(`[id="${idOrNode}"]`) : idOrNode
-  const type = node.prop('nodeName')
+  const nodeName = node.prop('nodeName')
+  const type = node.attr('type')
+  const name = node.attr('name')
 
-  switch (type) {
+  switch (nodeName) {
     case 'FUNDAMENTALTYPE': {
-      return node.attr('name')
+      return name
     }
 
     case 'CLASS': {
-      return withContextPath($, node, node.attr('name')) + '_class'
+      return withContextPath($, node, name) + '_class'
     }
 
     case 'STRUCT': {
-      return withContextPath($, node, node.attr('name')) + '_struct'
+      return withContextPath($, node, name) + '_struct'
     }
 
     case 'ENUMERATION': {
-      return withContextPath($, node, node.attr('name'))
+      return withContextPath($, node, name)
     }
 
     case 'TYPEDEF': {
-      return getCDataType($, node.attr('type'))
+      return getCDataType($, type)
     }
 
     case 'REFERENCETYPE': {
-      return getCDataType($, node.attr('type'))
+      return getCDataType($, type)
     }
 
     case 'POINTERTYPE': {
-      return getCDataType($, node.attr('type')) + '*'
+      return getCDataType($, type) + '*'
     }
 
     case 'CVQUALIFIEDTYPE': {
-      return getCDataType($, node.attr('type'))
+      return getCDataType($, type)
     }
 
     default: {
