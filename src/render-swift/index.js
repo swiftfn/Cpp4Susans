@@ -10,7 +10,7 @@ const registry = createRegistry([
 ])
 
 const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
-  const render = (declaration, needsIndent) => {
+  const render = (declaration, noIndent) => {
     const {type} = declaration
     const renderFunc = registry[type]
 
@@ -18,18 +18,14 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
       throw new Error(`Invalid declaration type: ${type}`)
     }
 
-    const renderWithIndent = (d, n) =>
-      render(d, true)
-
-    const text = renderFunc($, declaration, renderWithIndent, cppHeaderBaseFileName)
-
-    return needsIndent ? indent(text) : text
+    const text = renderFunc($, declaration, render, cppHeaderBaseFileName)
+    return noIndent ? text : indent(text)
   }
 
   let ret = 'import CSkia\n\n'
 
   for (const d of declarations) {
-    ret += render(d, false)
+    ret += render(d, true)
   }
 
   return ret
