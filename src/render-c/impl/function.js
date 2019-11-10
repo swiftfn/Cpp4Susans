@@ -2,10 +2,10 @@ const {renderFunctionSignature} = require('../header/function')
 
 const renderOperatorFunctionBody = (declaration) => {
   const {node, args} = declaration
-  const op = node.attr('name')
+  const opName = node.attr('name')
   const arg0 = args.eq(0).attr('name')
   const arg1 = args.eq(1).attr('name')
-  return `return ${arg0} ${op} ${arg1}`
+  return `return operator${opName}(${arg0}, ${arg1});`
 }
 
 const renderBody = {
