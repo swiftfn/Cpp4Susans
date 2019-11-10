@@ -43,17 +43,15 @@ const renderOperatorBody = ($, declaration) => {
 const renderBody = {
   'CONSTRUCTOR': renderContructorBody,
   'DESTRUCTOR': renderDestructorBody,
-  'METHOD': renderMethodBody,
+  'METHOD': renderNormalMethodBody,
   'OPERATORMETHOD': renderOperatorBody
 }
 
 const renderMethodImpl = ($, declaration) => {
   const {type} = declaration
-  return `
-${renderMethodSignature($, declaration)} {
+  return `${renderMethodSignature($, declaration)} {
 ${renderBody[type]($, declaration)}
-}
-`
+}`
 }
 
 const register = (registry) => {

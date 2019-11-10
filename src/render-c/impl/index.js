@@ -18,14 +18,17 @@ const renderCImpl = ($, declarations, files) => {
     return renderFunc($, declaration, render, cppHeaderBaseFileName)
   }
 
-  let ret = `#include "${cppHeaderFileName}"
-#include "${cHeaderFileName}"\n`
+  const parts = []
+
+  parts.push(`#include "${cppHeaderFileName}"
+#include "${cHeaderFileName}"`
+  )
 
   for (const d of declarations) {
-    ret += render(d)
+    parts.push(render(d))
   }
 
-  return ret
+  return parts.filter(text => text.length > 0).join('\n\n')
 }
 
 module.exports = {

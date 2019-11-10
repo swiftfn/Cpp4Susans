@@ -15,11 +15,9 @@ const renderBody = {
 const renderFunctionImpl = ($, declaration, render, cppHeaderBaseFileName) => {
   const {type} = declaration
   const body = renderBody[type](declaration)
-  return `
-${renderFunctionSignature($, declaration, cppHeaderBaseFileName)} {
+  return `${renderFunctionSignature($, declaration, cppHeaderBaseFileName)} {
   ${body}
-}
-`
+}`
 }
 
 const register = (registry) => {
