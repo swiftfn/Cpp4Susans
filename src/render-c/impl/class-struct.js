@@ -1,5 +1,5 @@
 const {getDataType} = require('../../castxml')
-const {renderGroups} = require('../groups')
+const {renderGroups} = require('../../groups')
 
 const renderClassStructImpl = ($, declaration, render) => {
   const {

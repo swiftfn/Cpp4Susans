@@ -1,5 +1,5 @@
+const {renderGroups} = require('../../groups')
 const {getDataType} = require('../data')
-const {renderGroups} = require('../groups')
 
 // C can access C++ struct fields directly.
 // Just type cast.
