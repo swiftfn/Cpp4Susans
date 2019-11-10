@@ -2,23 +2,28 @@ const {getDataType} = require('../data')
 const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
-const getOpFunctionName = (node) => {
-  const opName = node.attr('name')
-  return convertOperatorName(opName) + '_op'
+const TAGS = {
+  OPERATORFUNCTION: 'op'
 }
 
-const getFunctionName = {
-  OPERATORFUNCTION: getOpFunctionName
+// getContextPath returns empty result because functions are at top level,
+// we need to prefix with cppHeaderBaseFileName so that there's no conflict among files
+const getFunctionName = (declaration, cppHeaderBaseFileName) => {
+  const {type, node} = declaration
+  const name = node.attr('name')
+  const convertedName = type == 'OPERATORFUNCTION'
+    ? convertOperatorName(name)
+    : name
+  const tag = TAGS[type]
+  const parts = [cppHeaderBaseFileName, convertedName, [tag], 'function'].flat()
+  return parts.join('_')
 }
 
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
-  const {type, node, returns, args} = declaration
-  const name = getFunctionName[type](node)
+  const {returns, args} = declaration
   return (
     getDataType($, returns) + ' ' +
-    // getContextPath returns empty result because functions are at top level,
-    // we need to prefix with cppHeaderBaseFileName so that there's no conflict among files
-    cppHeaderBaseFileName + '_' + name + '_function' +
+    getFunctionName(declaration, cppHeaderBaseFileName) +
     renderArgs($, args)
   )
 }
@@ -32,6 +37,7 @@ const register = (registry) => {
 }
 
 module.exports = {
+  getFunctionName,
   renderFunctionSignature,
   register
 }

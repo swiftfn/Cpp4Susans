@@ -3,7 +3,7 @@ const map = {
   '!': 'not'
 }
 
-// Convert to valid C function name
+// Converts opName to valid C function name.
 const convertOperatorName = (opName) =>
   Array.from(opName).map(c => map[c]).join('_')
 

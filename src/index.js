@@ -30,7 +30,7 @@ async function main() {
   const $ = await loadXml(CAST_XML)
   const declarations = collectDeclarations($, CPP_HEADER)
 
-  // writeOutput(renderC($, declarations, CPP_HEADER))
+  writeOutput(renderC($, declarations, CPP_HEADER))
   writeOutput(renderSwift($, declarations, CPP_HEADER))
 }
 

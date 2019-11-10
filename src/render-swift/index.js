@@ -9,14 +9,14 @@ const registry = createRegistry([
   require('./struct')
 ])
 
-const doRenderSwift = ($, declarations) => {
+const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
   const render = (declaration) => {
     const {type} = declaration
     const renderFunc = registry[type]
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)
     }
-    return renderFunc($, declaration, render)
+    return renderFunc($, declaration, render, cppHeaderBaseFileName)
   }
 
   let ret = 'import CSkia\n\n'
@@ -33,7 +33,7 @@ const renderSwift = ($, declarations, cppHeaderFileName) => {
   const swiftFileName = `${cppHeaderBaseFileName}.swift`
 
   return {
-    [swiftFileName]: doRenderSwift($, declarations)
+    [swiftFileName]: doRenderSwift($, declarations, cppHeaderBaseFileName)
   }
 }
 
