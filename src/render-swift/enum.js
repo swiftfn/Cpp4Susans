@@ -1,7 +1,11 @@
+const {getDataType} = require('../render-c/data')
+
 const renderEnum = ($, declaration) => {
   const {node} = declaration
-  const name = declaration.attr('name')
-  return `public typealias ${name} = ${name}`
+  const swiftType = node.attr('name')
+  const cType = getDataType($, node)
+
+  return `public typealias ${swiftType} = ${cType}`
 }
 
 const register = (registry) => {

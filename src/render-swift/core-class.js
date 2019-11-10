@@ -1,6 +1,9 @@
 const renderCoreClass = ($, declaration, renderBody) => {
+  const {node} = declaration
+  const swiftType = node.attr('name')
+
   return `
-public class x {
+public class ${swiftType} {
   var handle: OpaquePointer
 
 ${renderBody()}

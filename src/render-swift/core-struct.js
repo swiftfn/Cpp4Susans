@@ -1,8 +1,14 @@
-const renderCoreStruct = ($, declaration, renderBody) => {
-  return `
-public typealias x = x
+const {getDataType} = require('../render-c/data')
 
-public extension x {
+const renderCoreStruct = ($, declaration, renderBody) => {
+  const {node} = declaration
+  const swiftType = node.attr('name')
+  const cType = getDataType($, node)
+
+  return `
+public typealias ${swiftType} = ${cType}
+
+extension ${swiftType} {
 ${renderBody()}
 }
 `

@@ -1,17 +1,35 @@
+const {getMethodName} = require('../render-c/header/method')
+
 const renderConstructor = ($, declaration) => {
-  return `init() {...}`
+  return `
+  public init() {
+  }
+`
 }
 
 const renderDestructor = ($, declaration) => {
-  return `deinit {...}`
+  return `
+  public deinit {
+  }
+`
 }
 
 const renderMethod = ($, declaration) => {
-  return `method() {...}`
+  const {node} = declaration
+  const swiftName = node.attr('name')
+  const cName = getMethodName($, declaration)
+  return `
+  public ${swiftName}() -> TODO {
+    ${cName}()
+  }
+`
 }
 
 const renderOperatorMethod = ($, declaration) => {
-  return `op() {...}`
+  return `
+  public op() -> {
+  }
+`
 }
 
 const register = (registry) => {
