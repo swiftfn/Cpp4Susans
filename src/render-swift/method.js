@@ -1,4 +1,5 @@
 const {getMethodName} = require('../render-c/header/method')
+const {getMethodSwiftReturnType} = require('./data')
 
 const renderConstructor = ($, declaration) => {
   return `public init() {
@@ -11,10 +12,11 @@ const renderDestructor = ($, declaration) => {
 }
 
 const renderMethod = ($, declaration) => {
-  const {node} = declaration
+  const {type, node, returns} = declaration
   const swiftName = node.attr('name')
   const cName = getMethodName($, declaration)
-  return `public ${swiftName}() -> TODO {
+  const returnType = getMethodSwiftReturnType($, node, type, returns)
+  return `public ${swiftName}() -> ${returnType} {
   ${cName}()
 }`
 }

@@ -18,7 +18,7 @@ const renderDestructorBody = () => {
 }
 
 const renderMethodBody = ($, declaration, isOperator) => {
-  const {type, node, belongsToClass, isStatic, returns, args} = declaration
+  const {type, node, belongsToClass, isStatic, args, returns} = declaration
   const methodName = node.attr('name')
   const actionName = isOperator ? 'operator' + methodName : methodName
   const renderedArgs = renderArgs($, args)

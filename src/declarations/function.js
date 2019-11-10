@@ -5,8 +5,8 @@ const collectFunction = ($, node) => {
   return {
     type: functionType,
     node,
-    returns: node.attr('returns'),
-    args: node.children('Argument')
+    args: node.children('Argument'),
+    returns: node.attr('returns')
   }
 }
 

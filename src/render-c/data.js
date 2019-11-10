@@ -52,12 +52,12 @@ const getCDataType = ($, idOrNode) => {
   }
 }
 
-const getMethodCReturnType = ($, node, methodType) =>
+const getMethodCReturnType = ($, node, methodType, returns) =>
   methodType === 'CONSTRUCTOR'
     ? getContextPath($, node).join('_') + '*'
     : methodType === 'DESTRUCTOR'
       ? 'void'
-      : getCDataType($, node.attr('returns'))
+      : getCDataType($, returns)
 
 module.exports = {
   getCDataType,

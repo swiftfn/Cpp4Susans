@@ -12,8 +12,8 @@ const collectMethod = ($, node) => {
     node,
     belongsToClass,
     isStatic: node.attr('static') === '1',
-    returns: node.attr('returns'),
-    args: node.children('Argument')
+    args: node.children('Argument'),
+    returns: node.attr('returns')
   }
 }
 

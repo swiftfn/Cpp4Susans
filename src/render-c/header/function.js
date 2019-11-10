@@ -20,7 +20,7 @@ const getFunctionName = (declaration, cppHeaderBaseFileName) => {
 }
 
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
-  const {returns, args} = declaration
+  const {args, returns} = declaration
   return (
     getCDataType($, returns) + ' ' +
     getFunctionName(declaration, cppHeaderBaseFileName) +
