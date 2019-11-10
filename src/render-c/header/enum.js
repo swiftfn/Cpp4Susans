@@ -24,7 +24,7 @@ ${renderValues($, values)}
 }
 
 const register = (registry) => {
-  registry['ENUM'] = renderEnumHeader
+  registry['ENUMERATION'] = renderEnumHeader
 }
 
 module.exports = {
