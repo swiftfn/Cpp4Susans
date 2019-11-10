@@ -1,5 +1,6 @@
 const {getCppHeaderBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
+const {indent} = require('./indent')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -9,19 +10,26 @@ const registry = createRegistry([
 ])
 
 const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
-  const render = (declaration) => {
+  const render = (declaration, needsIndent) => {
     const {type} = declaration
     const renderFunc = registry[type]
+
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)
     }
-    return renderFunc($, declaration, render, cppHeaderBaseFileName)
+
+    const renderWithIndent = (d, n) =>
+      render(d, true)
+
+    const text = renderFunc($, declaration, renderWithIndent, cppHeaderBaseFileName)
+
+    return needsIndent ? indent(text) : text
   }
 
   let ret = 'import CSkia\n\n'
 
   for (const d of declarations) {
-    ret += render(d)
+    ret += render(d, false)
   }
 
   return ret

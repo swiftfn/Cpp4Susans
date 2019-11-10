@@ -2,15 +2,15 @@ const {getMethodName} = require('../render-c/header/method')
 
 const renderConstructor = ($, declaration) => {
   return `
-  public init() {
-  }
+public init() {
+}
 `
 }
 
 const renderDestructor = ($, declaration) => {
   return `
-  public deinit {
-  }
+public deinit {
+}
 `
 }
 
@@ -19,16 +19,16 @@ const renderMethod = ($, declaration) => {
   const swiftName = node.attr('name')
   const cName = getMethodName($, declaration)
   return `
-  public ${swiftName}() -> TODO {
-    ${cName}()
-  }
+public ${swiftName}() -> TODO {
+  ${cName}()
+}
 `
 }
 
 const renderOperatorMethod = ($, declaration) => {
   return `
-  public op() -> {
-  }
+public op() -> {
+}
 `
 }
 
