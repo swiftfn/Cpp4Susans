@@ -1,28 +1,8 @@
 const {getDataType} = require('../data')
 const {renderGroups} = require('../groups')
 
-// C cannot access C++ class members.
-// From C, access C++ class objects as opaque pointers, via public methods.
-// Example: https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/sk_types_priv.h
-const renderClassHeader = ($, declaration) => {
-  const {node} = declaration
-  const name = getDataType($, node)
-  return `
-typedef struct ${name} ${name};
-`
-}
-
-// C cann access C++ struct fields directly.
-// Just type cast.
-const renderStructHeader = ($, declaration, render) => {
-  const {node, staticFields, fields} = declaration
-  const name = getDataType($, node)
-  return `
-typedef struct ${name} {
-${renderGroups([staticFields, fields], render)}
-} ${name};
-`
-}
+const {renderClassHeader} = require('./core-class')
+const {renderStructHeader} = require('./core-struct')
 
 const doRender = {
   CLASS: renderClassHeader,
