@@ -1,9 +1,9 @@
-const {getDataType} = require('../render-c/data')
+const {getCDataType} = require('../render-c/data')
 
 const renderCoreStruct = ($, declaration, renderBody) => {
   const {node} = declaration
   const swiftType = node.attr('name')
-  const cType = getDataType($, node)
+  const cType = getCDataType($, node)
 
   return `public typealias ${swiftType} = ${cType}
 

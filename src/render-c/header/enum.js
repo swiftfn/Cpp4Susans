@@ -1,4 +1,4 @@
-const {getDataType} = require('../data')
+const {getCDataType} = require('../data')
 
 const renderValue = ($, value) => {
   const node = $(value)
@@ -17,7 +17,7 @@ const renderValues = ($, values) => {
 
 const renderEnumHeader = ($, declaration) => {
   const {node, values} = declaration
-  const name = getDataType($, node)
+  const name = getCDataType($, node)
   return `enum ${name} {
 ${renderValues($, values)}
 };`

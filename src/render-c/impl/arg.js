@@ -1,10 +1,10 @@
-const {getDataType} = require('../data')
+const {getCDataType} = require('../data')
 
 const renderArg = ($, arg) => {
   const node = $(arg)
   const name = node.attr('name')
   const typeId = node.attr('type')
-  const type = getDataType($, typeId)
+  const type = getCDataType($, typeId)
   return `${name}`
 }
 

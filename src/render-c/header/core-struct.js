@@ -1,12 +1,12 @@
 const {renderGroups} = require('../../render-util/groups')
-const {getDataType} = require('../data')
+const {getCDataType} = require('../data')
 
 // C can access C++ struct fields directly.
 // Just type cast.
 const renderCoreStructHeader = ($, declaration, render) => {
   // C cannot have static fields
   const {node, fields} = declaration
-  const name = getDataType($, node)
+  const name = getCDataType($, node)
   return `typedef struct ${name} {
 ${renderGroups([fields], render)}
 } ${name};`

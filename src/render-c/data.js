@@ -6,7 +6,7 @@ const withContextPath = ($, node, name) => {
   return prefix + name
 }
 
-const getDataType = ($, idOrNode) => {
+const getCDataType = ($, idOrNode) => {
   const node = typeof idOrNode === 'string' ? $(`[id="${idOrNode}"]`) : idOrNode
   const type = node.prop('nodeName')
 
@@ -28,19 +28,19 @@ const getDataType = ($, idOrNode) => {
     }
 
     case 'TYPEDEF': {
-      return getDataType($, node.attr('type'))
+      return getCDataType($, node.attr('type'))
     }
 
     case 'REFERENCETYPE': {
-      return getDataType($, node.attr('type'))
+      return getCDataType($, node.attr('type'))
     }
 
     case 'POINTERTYPE': {
-      return getDataType($, node.attr('type')) + '*'
+      return getCDataType($, node.attr('type')) + '*'
     }
 
     case 'CVQUALIFIEDTYPE': {
-      return getDataType($, node.attr('type'))
+      return getCDataType($, node.attr('type'))
     }
 
     default: {
@@ -49,14 +49,14 @@ const getDataType = ($, idOrNode) => {
   }
 }
 
-const getMethodReturnType = ($, node, methodType) =>
+const getMethodCReturnType = ($, node, methodType) =>
   methodType === 'CONSTRUCTOR'
     ? getContextPath($, node).join('_') + '*'
     : methodType === 'DESTRUCTOR'
       ? 'void'
-      : getDataType($, node.attr('returns'))
+      : getCDataType($, node.attr('returns'))
 
 module.exports = {
-  getDataType,
-  getMethodReturnType
+  getCDataType,
+  getMethodCReturnType
 }

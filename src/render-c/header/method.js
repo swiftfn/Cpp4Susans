@@ -1,5 +1,5 @@
 const {getContextPath} = require('../../castxml')
-const {getDataType, getMethodReturnType} = require('../data')
+const {getCDataType, getMethodCReturnType} = require('../data')
 const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
@@ -40,7 +40,7 @@ const renderMethodSignature = ($, declaration) => {
     ? node.attr('context')
     : undefined
   return (
-    getMethodReturnType($, node, type) + ' ' +
+    getMethodCReturnType($, node, type) + ' ' +
     getMethodName($, declaration) +
     renderArgs($, args, self)
   )

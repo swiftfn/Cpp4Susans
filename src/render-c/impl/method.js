@@ -1,5 +1,5 @@
 const {getContextPath} = require('../../castxml')
-const {getDataType} = require('../data')
+const {getCDataType} = require('../data')
 const {renderMethodSignature} = require('../header/method')
 const {renderArgs} = require('./arg')
 
@@ -22,7 +22,7 @@ const renderMethodBody = ($, declaration, isOperator) => {
   const methodName = node.attr('name')
   const actionName = isOperator ? 'operator' + methodName : methodName
   const renderedArgs = renderArgs($, args)
-  const returnType = getDataType($, returns)
+  const returnType = getCDataType($, returns)
   const subject = isStatic
     ? getContainerName($, node) + '.'
     : belongsToClass ? 'self->' : 'self.'

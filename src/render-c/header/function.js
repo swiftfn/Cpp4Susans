@@ -1,4 +1,4 @@
-const {getDataType} = require('../data')
+const {getCDataType} = require('../data')
 const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
@@ -22,7 +22,7 @@ const getFunctionName = (declaration, cppHeaderBaseFileName) => {
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
   const {returns, args} = declaration
   return (
-    getDataType($, returns) + ' ' +
+    getCDataType($, returns) + ' ' +
     getFunctionName(declaration, cppHeaderBaseFileName) +
     renderArgs($, args)
   )
