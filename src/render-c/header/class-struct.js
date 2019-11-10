@@ -1,37 +1,32 @@
 const {renderGroups} = require('../../groups')
 const {getDataType} = require('../data')
 
-const {renderClassHeader} = require('./core-class')
-const {renderStructHeader} = require('./core-struct')
+const {renderCoreClassHeader} = require('./core-class')
+const {renderCoreStructHeader} = require('./core-struct')
 
 const doRender = {
-  CLASS: renderClassHeader,
-  STRUCT: renderStructHeader
+  CLASS: renderCoreClassHeader,
+  STRUCT: renderCoreStructHeader
 }
 
 const renderClassStructHeader = ($, declaration, render) => {
   const {
     type,
-    node,
     enums, structs, classes,
     staticFields, staticMethods,
-    fields,
+    // Non-static fields are handled by renderCoreStructHeader
     constructors, destructors,
     methods, operators
   } = declaration
 
   const groups1 = [
-    enums,
-    structs,
-    classes
+    enums, structs, classes
   ]
 
   const groups2 = [
-    staticMethods,
-    constructors,
-    destructors,
-    methods,
-    operators
+    staticFields, staticMethods,
+    constructors, destructors,
+    methods, operators
   ]
 
   return `

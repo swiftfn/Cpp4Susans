@@ -3,16 +3,17 @@ const {getDataType} = require('../data')
 
 // C can access C++ struct fields directly.
 // Just type cast.
-const renderStructHeader = ($, declaration, render) => {
-  const {node, staticFields, fields} = declaration
+const renderCoreStructHeader = ($, declaration, render) => {
+  // C cannot have static fields
+  const {node, fields} = declaration
   const name = getDataType($, node)
   return `
 typedef struct ${name} {
-${renderGroups([staticFields, fields], render)}
+${renderGroups([fields], render)}
 } ${name};
 `
 }
 
 module.exports = {
-  renderStructHeader
+  renderCoreStructHeader
 }

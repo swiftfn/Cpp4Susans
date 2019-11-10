@@ -1,17 +1,17 @@
 const renderConstructor = ($, declaration) => {
-
+  return `init() {...}`
 }
 
 const renderDestructor = ($, declaration) => {
-
+  return `deinit {...}`
 }
 
 const renderMethod = ($, declaration) => {
-
+  return `method() {...}`
 }
 
 const renderOperatorMethod = ($, declaration) => {
-
+  return `op() {...}`
 }
 
 const register = (registry) => {

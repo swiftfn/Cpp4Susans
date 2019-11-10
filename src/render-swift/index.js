@@ -2,11 +2,10 @@ const {getCppHeaderBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
 
 const registry = createRegistry([
-  require('./class'),
+  require('./class-struct'),
   require('./enum'),
   require('./function'),
-  require('./method'),
-  require('./struct')
+  require('./method')
 ])
 
 const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
