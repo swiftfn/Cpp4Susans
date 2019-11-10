@@ -6,9 +6,7 @@ const {getDataType} = require('../data')
 const renderCoreClassHeader = ($, declaration) => {
   const {node} = declaration
   const name = getDataType($, node)
-  return `
-typedef struct ${name} ${name};
-`
+  return `typedef struct ${name} ${name};`
 }
 
 module.exports = {

@@ -5,11 +5,11 @@ const {collectDeclarations} = require('./declarations')
 const {renderC} = require('./render-c')
 const {renderSwift} = require('./render-swift')
 
-// const CAST_XML = 'input/SkSize.xml'
-// const CPP_HEADER = 'SkSize.h'
+const CAST_XML = 'input/SkSize.xml'
+const CPP_HEADER = 'SkSize.h'
 
-const CAST_XML = 'input/SkCanvas.xml'
-const CPP_HEADER = 'SkCanvas.h'
+// const CAST_XML = 'input/SkCanvas.xml'
+// const CPP_HEADER = 'SkCanvas.h'
 
 const loadXml = (fileName) => {
   // https://github.com/Leonidas-from-XIV/node-xml2js

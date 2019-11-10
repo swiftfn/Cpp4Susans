@@ -29,13 +29,11 @@ const renderClassStructHeader = ($, declaration, render) => {
     methods, operators
   ]
 
-  return `
-${renderGroups(groups1, render)}
-
-${doRender[type]($, declaration, render)}
-
-${renderGroups(groups2, render)}
-`
+  return [
+    renderGroups(groups1, render),
+    doRender[type]($, declaration, render),
+    renderGroups(groups2, render)
+  ].filter(text => text.length > 0).join('\n\n')
 }
 
 const register = (registry) => {

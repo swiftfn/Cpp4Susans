@@ -7,11 +7,9 @@ const renderCoreStructHeader = ($, declaration, render) => {
   // C cannot have static fields
   const {node, fields} = declaration
   const name = getDataType($, node)
-  return `
-typedef struct ${name} {
+  return `typedef struct ${name} {
 ${renderGroups([fields], render)}
-} ${name};
-`
+} ${name};`
 }
 
 module.exports = {

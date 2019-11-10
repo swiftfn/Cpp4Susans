@@ -29,7 +29,7 @@ const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
 }
 
 const renderFunctionHeader = ($, declaration, render, cppHeaderBaseFileName) => {
-  return renderFunctionSignature($, declaration, cppHeaderBaseFileName) + ';\n'
+  return renderFunctionSignature($, declaration, cppHeaderBaseFileName) + ';'
 }
 
 const register = (registry) => {

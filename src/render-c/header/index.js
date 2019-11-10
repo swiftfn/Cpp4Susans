@@ -21,27 +21,28 @@ const renderCHeader = ($, declarations, files) => {
     return renderFunc($, declaration, render, cppHeaderBaseFileName)
   }
 
-  let ret = `#ifndef ${headerSignature}
+  const parts = []
+
+  parts.push(`#ifndef ${headerSignature}
 #define ${headerSignature}
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif`
+  )
 
-`
   for (const d of declarations) {
-    ret += render(d)
+    parts.push(render(d))
   }
 
-  ret += `
-
-#ifdef __cplusplus
+  parts.push(`#ifdef __cplusplus
 }
 #endif
 
-#endif
-`
-  return ret
+#endif`
+  )
+
+  return parts.filter(text => text.length > 0).join('\n\n')
 }
 
 module.exports = {
