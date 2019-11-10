@@ -1,36 +1,47 @@
 const {getContextPath} = require('../../castxml')
 const {getDataType, getMethodReturnType} = require('../data')
 const {convertOperatorName} = require('../op')
-
 const {renderArg, renderArgs} = require('./arg')
 
-const getMethodName = (methodType, node) => {
+const TAGS = {
+  CONSTRUCTOR: ['constructor'],
+  DESTRUCTOR: ['destructor'],
+  METHOD: ['method'],
+  OPERATORMETHOD: ['op', 'method']
+}
+
+const getOriginalMethodName = (methodType, node) => {
   switch (methodType) {
     case 'CONSTRUCTOR':
-      return 'constructor'
-
     case 'DESTRUCTOR':
-      return 'destructor'
+      return []
 
     case 'METHOD':
-      return node.attr('name') + '_method'
-
     case 'OPERATORMETHOD':
-      const opName = node.attr('name')
-      return convertOperatorName(opName) + '_op_method'
+      return [node.attr('name')]
   }
 }
 
+const getMethodName = ($, declaration) => {
+  const {type, node, isStatic} = declaration
+  const originalName = getOriginalMethodName(type, node)
+  const convertedName = type == 'OPERATORMETHOD'
+    ? convertOperatorName(originalName)
+    : originalName
+  const tag = TAGS[type]
+  const suffix = isStatic ? ['static'] : []
+  const parts = [getContextPath($, node), convertedName, tag, suffix]
+  return parts.flat().join('_')
+}
+
 const renderMethodSignature = ($, declaration) => {
-  const {type, node, isStatic, returns, args} = declaration
-  const name = getMethodName(type, node)
-  const suffix = isStatic ? '_static' : ''
+  const {type, node, isStatic, args} = declaration
   const self = !isStatic && type !== 'CONSTRUCTOR'
     ? node.attr('context')
     : undefined
   return (
     getMethodReturnType($, node, type) + ' ' +
-    getContextPath($, node).join('_') + '_' + name + suffix +
+    getMethodName($, declaration) +
     renderArgs($, args, self)
   )
 }
@@ -47,6 +58,7 @@ const register = (registry) => {
 }
 
 module.exports = {
+  getMethodName,
   renderMethodSignature,
   register
 }

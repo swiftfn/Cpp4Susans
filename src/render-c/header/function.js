@@ -3,20 +3,20 @@ const {convertOperatorName} = require('../op')
 const {renderArg, renderArgs} = require('./arg')
 
 const TAGS = {
-  OPERATORFUNCTION: 'op'
+  OPERATORFUNCTION: ['op']
 }
 
 // getContextPath returns empty result because functions are at top level,
 // we need to prefix with cppHeaderBaseFileName so that there's no conflict among files
 const getFunctionName = (declaration, cppHeaderBaseFileName) => {
   const {type, node} = declaration
-  const name = node.attr('name')
+  const originalName = node.attr('name')
   const convertedName = type == 'OPERATORFUNCTION'
-    ? convertOperatorName(name)
+    ? convertOperatorName(originalName)
     : name
   const tag = TAGS[type]
-  const parts = [cppHeaderBaseFileName, convertedName, [tag], 'function'].flat()
-  return parts.join('_')
+  const parts = [cppHeaderBaseFileName, convertedName, tag, 'function']
+  return parts.flat().join('_')
 }
 
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
