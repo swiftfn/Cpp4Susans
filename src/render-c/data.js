@@ -9,6 +9,7 @@ const withContextPath = ($, node, name) => {
 const getCDataType = ($, idOrNode) => {
   const node = typeof idOrNode === 'string' ? $(`[id="${idOrNode}"]`) : idOrNode
   const nodeName = node.prop('nodeName')
+  const id = node.attr('id')
   const type = node.attr('type')
   const name = node.attr('name')
 
@@ -46,7 +47,7 @@ const getCDataType = ($, idOrNode) => {
     }
 
     default: {
-      throw new Error(`Unknown data type: ${type}, id: ${node.attr('id')}`)
+      throw new Error(`Unknown data type: ${nodeName}, id: ${id}`)
     }
   }
 }
