@@ -1,4 +1,5 @@
-const {getCppHeaderBaseFileName, getCHeaderFileName, getCImplFileName} = require('./file')
+const {getCppHeaderBaseFileName} = require('../file')
+const {getCHeaderFileName, getCImplFileName} = require('./file')
 const {renderCHeader} = require('./header')
 const {renderCImpl} = require('./impl')
 
@@ -14,7 +15,7 @@ const renderC = ($, declarations, cppHeaderFileName) => {
     cImplFileName
   }
 
-  return output = {
+  return {
     [cHeaderFileName]: renderCHeader($, declarations, files),
     [cImplFileName]: renderCImpl($, declarations, files)
   }

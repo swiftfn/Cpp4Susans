@@ -1,6 +1,4 @@
-const {renderGroups} = require('./class-struct')
-
-const render = (declaration) => {
+const renderClass = (declaration) => {
   const {
     node,
     enums, structs, classes,
@@ -27,6 +25,10 @@ public class ${name} {
 `
 }
 
+const register = (registry) => {
+  registry['CLASS'] = renderClass
+}
+
 module.exports = {
-  render
+  register
 }
