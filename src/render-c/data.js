@@ -6,17 +6,10 @@ const withContextPath = ($, node, name) => {
   return prefix + name
 }
 
-const getMethodReturnType = ($, node, methodType) =>
-  methodType === 'CONSTRUCTOR'
-    ? getContextPath($, node).join('_') + '*'
-    : methodType === 'DESTRUCTOR'
-      ? 'void'
-      : getDataType($, node.attr('returns'))
-
 const getDataType = ($, idOrNode) => {
   const node = typeof idOrNode === 'string' ? $(`[id="${idOrNode}"]`) : idOrNode
-
   const type = node.prop('nodeName')
+
   switch (type) {
     case 'FUNDAMENTALTYPE': {
       return node.attr('name')
@@ -56,6 +49,14 @@ const getDataType = ($, idOrNode) => {
   }
 }
 
+const getMethodReturnType = ($, node, methodType) =>
+  methodType === 'CONSTRUCTOR'
+    ? getContextPath($, node).join('_') + '*'
+    : methodType === 'DESTRUCTOR'
+      ? 'void'
+      : getDataType($, node.attr('returns'))
+
 module.exports = {
-  getDataType
+  getDataType,
+  getMethodReturnType
 }

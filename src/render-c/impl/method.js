@@ -12,14 +12,14 @@ const renderDestructorBody = () => {
 }
 
 const renderMethodBody = ($, declaration, isOperator) => {
-  const {type, node, isStatic, returns, args} = declaration
+  const {type, node, belongsToClass, isStatic, returns, args} = declaration
   const methodName = node.attr('name')
   const actionName = isOperator ? 'operator' + methodName : methodName
   const renderedArgs = renderArgs($, args)
   const returnType = getDataType($, returns)
   const subject = isStatic
     ? getContextPath($, node).join('.') + '.'
-    : type === 'CLASS' ? 'self->' : 'self.'
+    : belongsToClass ? 'self->' : 'self.'
   const call = `${subject}${actionName}${renderedArgs};`
   return returnType === 'void'
     ? `  ${call}`

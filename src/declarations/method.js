@@ -1,8 +1,16 @@
+const {getContext} = require('../castxml')
+
+// A method can belong to a class or a struct.
 const collectMethod = ($, node) => {
   const methodType = node.prop('nodeName')
+
+  const parent = getContext($, node)
+  const belongsToClass = parent.prop('nodeName') === 'CLASS'
+
   return {
     type: methodType,
     node,
+    belongsToClass,
     isStatic: node.attr('static') === '1',
     returns: node.attr('returns'),
     args: node.children('Argument')

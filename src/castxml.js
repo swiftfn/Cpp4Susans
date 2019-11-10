@@ -3,14 +3,18 @@ const hasNoContext = (node) => {
   return node.attr('context') === '_1'
 }
 
-// Returns array of parent nodes leading to this node.
+const getContext = ($, node) => {
+  const contextId = node.attr('context')
+  return $(`[id="${contextId}"]`)
+}
+
+// Returns array of parent node names leading to this node.
 const getContextPath = ($, node) => {
   if (hasNoContext(node)) {
     return []
   }
 
-  const parentId = node.attr('context')
-  const parent = $(`[id="${parentId}"]`)
+  const parent = getContext($, node)
   const parentPath = getContextPath($, parent)
   parentPath.push(parent.attr('name'))
   return parentPath
@@ -18,5 +22,6 @@ const getContextPath = ($, node) => {
 
 module.exports = {
   hasNoContext,
+  getContext,
   getContextPath
 }
