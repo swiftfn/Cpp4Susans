@@ -3,8 +3,14 @@ const {getDataType} = require('../data')
 const {renderMethodSignature} = require('../header/method')
 const {renderArgs} = require('./arg')
 
-const renderContructorBody = ($, declaration) => {
+const getContainerName = ($, node) =>
+  getContextPath($, node).join('.')
 
+const renderContructorBody = ($, declaration) => {
+  const {node, args} = declaration
+  const className = getContainerName($, node)
+  const renderedArgs = renderArgs($, args)
+  return `  return new ${className}${renderedArgs};`
 }
 
 const renderDestructorBody = () => {
@@ -18,7 +24,7 @@ const renderMethodBody = ($, declaration, isOperator) => {
   const renderedArgs = renderArgs($, args)
   const returnType = getDataType($, returns)
   const subject = isStatic
-    ? getContextPath($, node).join('.') + '.'
+    ? getContainerName($, node) + '.'
     : belongsToClass ? 'self->' : 'self.'
   const call = `${subject}${actionName}${renderedArgs};`
   return returnType === 'void'
