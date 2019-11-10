@@ -9,11 +9,9 @@ const renderOperatorFunction = ($, declaration, render, cppHeaderBaseFileName) =
 
   const arg0 = args.eq(0).attr('name')
   const arg1 = args.eq(1).attr('name')
-  return `
-infix ${opName}(${arg0}, ${arg1}) -> Double {
+  return `infix ${opName}(${arg0}, ${arg1}) -> Double {
   return ${cFunctionName}(${arg0}, ${arg1})
-}
-`
+}`
 }
 
 const register = (registry) => {

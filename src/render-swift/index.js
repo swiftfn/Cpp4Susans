@@ -22,13 +22,15 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
     return noIndent ? text : indent(text)
   }
 
-  let ret = 'import CSkia\n\n'
+  const parts = []
+
+  parts.push('import CSkia')
 
   for (const d of declarations) {
-    ret += render(d, true)
+    parts.push(render(d, true))
   }
 
-  return ret
+  return parts.filter(text => text.length > 0).join('\n\n')
 }
 
 const renderSwift = ($, declarations, cppHeaderFileName) => {
