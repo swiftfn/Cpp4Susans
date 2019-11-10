@@ -1,4 +1,4 @@
-const {renderGroups} = require('../groups')
+const {renderGroups} = require('../render-util/groups')
 
 const {renderCoreClass} = require('./core-class')
 const {renderCoreStruct} = require('./core-struct')

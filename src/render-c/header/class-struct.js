@@ -1,4 +1,4 @@
-const {renderGroups} = require('../../groups')
+const {renderGroups} = require('../../render-util/groups')
 const {getDataType} = require('../data')
 
 const {renderCoreClassHeader} = require('./core-class')

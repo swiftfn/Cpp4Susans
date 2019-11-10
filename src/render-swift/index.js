@@ -1,6 +1,6 @@
 const {getCppHeaderBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
-const {indent} = require('./indent')
+const {indent} = require('../render-util/indent')
 
 const registry = createRegistry([
   require('./class-struct'),
