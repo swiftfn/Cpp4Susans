@@ -11,11 +11,20 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
     case 'bool':
       return 'Bool'
 
+    case 'char':
+      return 'Character'
+
     case 'float':
       return 'Float'
 
     case 'int':
       return 'Int32'
+
+    case 'long unsigned int':
+      return 'UInt64'
+
+    case 'unsigned int':
+      return 'UInt32'
 
     case 'void':
       return 'Void'
@@ -38,7 +47,7 @@ const getSwiftDataType = ($, idOrNode) => {
     }
 
     case 'CLASS': {
-      return withContextPath($, node, name) + '_class'
+      return withContextPath($, node, name)
     }
 
     case 'CLASS':
