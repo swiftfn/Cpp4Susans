@@ -1,3 +1,4 @@
+const {renderArgs: renderArgsUtil} = require('../../render-util/arg')
 const {getCDataType} = require('../data')
 
 const renderArg = ($, arg) => {
@@ -10,19 +11,8 @@ const renderArg = ($, arg) => {
   return `${name}`
 }
 
-const renderArgs = ($, args) => {
-  let acc = []
-
-  args.each((idx, arg) => {
-    acc.push('    ' + renderArg($, arg))
-  })
-
-  const renderedArgs = acc.join(',\n')
-
-  return acc.length === 0
-    ? '()'
-    : '(\n' + renderedArgs + '\n  )'
-}
+const renderArgs = ($, args) =>
+  renderArgsUtil($, args, renderArg, '  ')
 
 module.exports = {
   renderArgs

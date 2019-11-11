@@ -1,18 +1,19 @@
 const {renderArgs: renderArgsUtil} = require('../render-util/arg')
 const {getSwiftDataType} = require('./data')
 
-const renderDeclArg = ($, arg) => {
+const renderImplArg = ($, arg) => {
   const node = $(arg)
   const name = node.attr('name')
   const typeId = node.attr('type')
   const type = getSwiftDataType($, typeId)
-  return `${name}: ${type}`
+  // TODO Convert Swift to C
+  return name
 }
 
 const renderDeclArgs = ($, args) =>
-  renderArgsUtil($, args, renderDeclArg)
+  renderArgsUtil($, args, renderImplArg)
 
 module.exports = {
-  renderDeclArg,
-  renderDeclArgs
+  renderImplArg,
+  renderImplArgs
 }
