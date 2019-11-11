@@ -12,7 +12,7 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
       return 'Bool'
 
     case 'char':
-      return 'Character'
+      return 'Int8'
 
     case 'float':
       return 'Float'
