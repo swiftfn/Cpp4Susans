@@ -1,6 +1,7 @@
 const {getCppHeaderBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
 const {indent} = require('../render-util/indent')
+const {renderParts} = require('../render-util/groups')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -30,7 +31,7 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
     parts.push(render(d, true))
   }
 
-  return parts.filter(text => text.length > 0).join('\n\n')
+  return renderParts(parts)
 }
 
 const renderSwift = ($, declarations, cppHeaderFileName) => {

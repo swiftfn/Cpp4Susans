@@ -1,4 +1,5 @@
 const {createRegistry} = require('../../registry')
+const {renderParts} = require('../../render-util/groups')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -42,7 +43,7 @@ extern "C" {
 #endif`
   )
 
-  return parts.filter(text => text.length > 0).join('\n\n')
+  return renderParts(parts)
 }
 
 module.exports = {
