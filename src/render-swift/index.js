@@ -11,6 +11,10 @@ const registry = createRegistry([
 ])
 
 const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
+  // For convenience, when "render" below is passed directly in map:
+  // array.map(render)
+  const NO_INDENT = 'NO_INDENT_MAGIC'
+
   const render = (declaration, noIndent) => {
     const {type} = declaration
     const renderFunc = registry[type]
@@ -20,7 +24,7 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
     }
 
     const text = renderFunc($, declaration, render, cppHeaderBaseFileName)
-    return noIndent ? text : indent(text)
+    return noIndent === NO_INDENT ? text : indent(text)
   }
 
   const parts = []
@@ -28,7 +32,7 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
   parts.push('import CSkia')
 
   for (const d of declarations) {
-    parts.push(render(d, true))
+    parts.push(render(d, NO_INDENT))
   }
 
   return renderParts(parts)
