@@ -27,6 +27,8 @@ const renderMethodBody = ($, declaration, isOperator) => {
     ? getContainerName($, node) + '.'
     : belongsToClass ? 'self->' : 'self.'
   const call = `${subject}${actionName}${renderedArgs};`
+  // TODO Type cast result from C++ to C
+  // https://github.com/swiftfn/Cpp4Susans/issues/3
   return returnType === 'void'
     ? `  ${call}`
     : `  return ${call}`
