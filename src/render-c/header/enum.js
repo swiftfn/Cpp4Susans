@@ -8,7 +8,7 @@ const renderValue = ($, value) => {
 }
 
 const renderValues = ($, values) => {
-  let acc = []
+  const acc = []
   values.each((idx, value) => {
     acc.push('  ' + renderValue($, value))
   })
