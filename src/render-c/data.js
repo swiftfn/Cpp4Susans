@@ -15,19 +15,31 @@ const getCDataType = ($, idOrNode) => {
 
   switch (nodeName) {
     case 'FUNDAMENTALTYPE': {
-      return name
+      return {
+        category: nodeName,
+        name
+      }
     }
 
     case 'CLASS': {
-      return withContextPath($, node, name) + '_class'
+      return {
+        category: nodeName,
+        name: withContextPath($, node, name) + '_class'
+      }
     }
 
     case 'STRUCT': {
-      return withContextPath($, node, name) + '_struct'
+      return {
+        category: nodeName,
+        name: withContextPath($, node, name) + '_struct'
+      }
     }
 
     case 'ENUMERATION': {
-      return withContextPath($, node, name)
+      return {
+        category: nodeName,
+        name: withContextPath($, node, name)
+      }
     }
 
     case 'TYPEDEF': {
@@ -35,13 +47,22 @@ const getCDataType = ($, idOrNode) => {
     }
 
     case 'REFERENCETYPE': {
-      return getCDataType($, type)
+      return {
+        ...getCDataType($, type),
+        ref: true
+      }
     }
 
     case 'POINTERTYPE': {
-      return getCDataType($, type) + '*'
+      const t = getCDataType($, type)
+      t.name += '*'
+      return {
+        ...t,
+        pointer: true
+      }
     }
 
+    // https://en.cppreference.com/w/cpp/language/cv
     case 'CVQUALIFIEDTYPE': {
       return getCDataType($, type)
     }
@@ -57,7 +78,7 @@ const getMethodCReturnType = ($, node, methodType, returns) =>
     ? getContextPath($, node).join('_') + '*'
     : methodType === 'DESTRUCTOR'
       ? 'void'
-      : getCDataType($, returns)
+      : getCDataType($, returns).name
 
 module.exports = {
   getCDataType,

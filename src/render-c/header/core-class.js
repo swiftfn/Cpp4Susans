@@ -5,7 +5,7 @@ const {getCDataType} = require('../data')
 // Example: https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/sk_types_priv.h
 const renderCoreClassHeader = ($, declaration) => {
   const {node} = declaration
-  const name = getCDataType($, node)
+  const {name} = getCDataType($, node)
   return `typedef struct ${name} ${name};`
 }
 

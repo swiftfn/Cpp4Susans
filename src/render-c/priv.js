@@ -1,3 +1,6 @@
+const toCMacro = 'CPP4SUSANS_TO_C'
+const toCppMacro = 'CPP4SUSANS_TO_CPP'
+
 // https://github.com/mono/skia/blob/xamarin-mobile-bindings/src/c/CTypes_priv.h
 const priv = {
   'cpp4susans_priv.h': `#ifndef cpp4susans_priv_CPP4SUSANS_C_HEADER
@@ -33,6 +36,22 @@ const priv = {
 `
 }
 
+const toC = (catetory, text) => {
+  return (catetory === 'CLASS' || catetory === 'STRUCT')
+    ? `CPP4SUSANS_TO_C(${text})`
+    : text
+}
+
+const toCpp = (catetory, text) => {
+  return (catetory === 'CLASS' || catetory === 'STRUCT')
+    ? `CPP4SUSANS_TO_CPP(${text})`
+    : text
+}
+
 module.exports = {
-  priv
+  priv,
+  toCMacro,
+  toCppMacro,
+  toC,
+  toCpp
 }

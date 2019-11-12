@@ -4,7 +4,7 @@ const {getCDataType} = require('../data')
 const renderSelfArg = ($, selfId) => {
   const self = $(`[id="${selfId}"]`)
   const isClass = self.prop('nodeName') === 'CLASS'  // or 'STRUCT'
-  const type = getCDataType($, self)
+  const type = getCDataType($, self).name
   return type + (isClass ? '* self' : ' self')
 }
 
@@ -12,7 +12,7 @@ const renderArg = ($, arg, idx) => {
   const node = $(arg)
   const name = node.attr('name') || `arg${idx}`
   const typeId = node.attr('type')
-  const type = getCDataType($, typeId)
+  const type = getCDataType($, typeId).name
   return `${type} ${name}`
 }
 

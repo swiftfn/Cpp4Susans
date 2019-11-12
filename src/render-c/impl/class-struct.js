@@ -1,4 +1,3 @@
-const {getCDataType} = require('../../castxml')
 const {renderGroups} = require('../../render-util/groups')
 
 const renderClassStructImpl = ($, declaration, render) => {

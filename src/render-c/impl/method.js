@@ -1,6 +1,9 @@
 const {getContextPath} = require('../../castxml')
+
 const {getCDataType} = require('../data')
 const {renderMethodSignature} = require('../header/method')
+const {toCppMacro, toC} = require('../priv')
+
 const {renderArgs} = require('./arg')
 
 const getContainerName = ($, node) =>
@@ -19,19 +22,23 @@ const renderDestructorBody = () => {
 
 const renderMethodBody = ($, declaration, isOperator) => {
   const {node, belongsToClass, isStatic, args, returns} = declaration
+
   const methodName = node.attr('name')
   const actionName = isOperator ? 'operator' + methodName : methodName
+
   const renderedArgs = renderArgs($, args)
-  const returnType = getCDataType($, returns)
+
+  const {category: returnCategory, name: returnType} = getCDataType($, returns)
+
   const subject = isStatic
     ? getContainerName($, node) + '::'
-    : belongsToClass ? 'CPP4SUSANS_TO_CPP(self)->' : 'CPP4SUSANS_TO_CPP(self).'
+    : belongsToClass ? `${toCppMacro}(self)->` : `${toCppMacro}(self).`
+
   const call = `${subject}${actionName}${renderedArgs}`
-  // TODO Type cast result from C++ to C
-  // https://github.com/swiftfn/Cpp4Susans/issues/3
+
   return returnType === 'void'
-    ? `  ${call};`
-    : `  return CPP4SUSANS_TO_C(${call});`
+    ? `  ${toC(returnCategory, call)};`
+    : `  return ${toC(returnCategory, call)};`
 }
 
 const renderNormalMethodBody = ($, declaration) => {

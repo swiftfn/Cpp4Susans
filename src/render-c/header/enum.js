@@ -14,7 +14,7 @@ const renderValues = ($, values) =>
 
 const renderEnumHeader = ($, declaration) => {
   const {node, values} = declaration
-  const name = getCDataType($, node)
+  const {name} = getCDataType($, node)
   return `enum ${name} {
 ${renderValues($, values)}
 };`
