@@ -1,5 +1,6 @@
 const {createRegistry} = require('../../registry')
 const {renderParts} = require('../../render-util/groups')
+const {FILE_NAME: PRIV_FILE_NAME} = require('../priv')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -23,7 +24,7 @@ const renderCImpl = ($, declarations, files) => {
 
   parts.push(`#include "${cppHeaderFileName}"
 #include "${cHeaderFileName}"
-#include "cpp4susans_priv.h"
+#include "${PRIV_FILE_NAME}"
 
 CPP4SUSANS_DEF_MAP_DECL(SkISize, SkISize_struct)
 CPP4SUSANS_DEF_MAP_DECL(SkSize, SkSize_struct)`

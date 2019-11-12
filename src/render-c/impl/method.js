@@ -1,5 +1,5 @@
 const {renderMethodSignature} = require('../header/method')
-const {toCMacro} = require('../priv')
+const {TO_C_MACRO} = require('../priv')
 
 const {renderArgs} = require('./arg')
 const {getContainerName, renderFunctionOrMethodBody} = require('./body')
@@ -8,7 +8,7 @@ const renderContructorBody = ($, declaration) => {
   const {node, args} = declaration
   const className = getContainerName($, node)
   const renderedArgs = renderArgs($, args)
-  return `  return ${toCMacro}(new ${className}${renderedArgs});`
+  return `  return ${TO_C_MACRO}(new ${className}${renderedArgs});`
 }
 
 const renderDestructorBody = () => {
