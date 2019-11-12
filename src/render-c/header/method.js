@@ -1,7 +1,7 @@
 const {getContextPath} = require('../../castxml')
 const {getMethodCReturnType} = require('../data')
-const {convertOperatorName} = require('../op')
 const {renderArgs} = require('./arg')
+const {convertOperatorName} = require('./op')
 
 const TAGS = {
   CONSTRUCTOR: ['constructor'],

@@ -1,6 +1,6 @@
 const {getCDataType} = require('../data')
-const {convertOperatorName} = require('../op')
-const {renderArg, renderArgs} = require('./arg')
+const {renderArgs} = require('./arg')
+const {convertOperatorName} = require('./op')
 
 const TAGS = {
   OPERATORFUNCTION: ['op']
