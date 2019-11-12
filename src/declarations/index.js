@@ -38,19 +38,10 @@ const getDeclarations = ($, topNodes) => {
     return collectFunc($, node, collect)
   }
 
-  const declarations = []
-
-  topNodes.each((idx, node) => {
-    node = $(node)
-
-    if (!isTopScope(node)) {
-      return
-    }
-
-    declarations.push(collect(node))
-  })
-
-  return declarations
+  return topNodes
+    .filter((idx, node) => isTopScope($(node)))
+    .map((idx, node) => collect($(node)))
+    .get()
 }
 
 const collectDeclarations = ($, cppHeaderFileName) => {

@@ -7,13 +7,10 @@ const renderValue = ($, value) => {
   return `${name} = ${init}`
 }
 
-const renderValues = ($, values) => {
-  const acc = []
-  values.each((idx, value) => {
-    acc.push('  ' + renderValue($, value))
-  })
-  return acc.join(',\n')
-}
+const renderValues = ($, values) =>
+  values.map((idx, value) =>
+    '  ' + renderValue($, value)
+  ).get().join(',\n')
 
 const renderEnumHeader = ($, declaration) => {
   const {node, values} = declaration

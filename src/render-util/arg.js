@@ -1,8 +1,5 @@
-const collectRenderArgs = ($, args, renderArg) => {
-  const acc = []
-  args.each((idx, arg) => acc.push(renderArg($, arg, idx)))
-  return acc
-}
+const collectRenderArgs = ($, args, renderArg) =>
+  args.map((idx, arg) => renderArg($, arg, idx)).get()
 
 const formatRenderedArgs = (renderedArgs, extraIndent) => {
   if (renderedArgs.length === 0) {
