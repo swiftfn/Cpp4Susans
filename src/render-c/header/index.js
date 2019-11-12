@@ -11,7 +11,7 @@ const registry = createRegistry([
 
 const renderCHeader = ($, declarations, files) => {
   const {cppHeaderBaseFileName} = files
-  const headerSignature = `${cppHeaderBaseFileName}_C_HEADER`
+  const headerSignature = `${cppHeaderBaseFileName}_CPP4SUSANS_C_HEADER`
 
   const render = (declaration) => {
     const {type} = declaration

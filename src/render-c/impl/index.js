@@ -22,7 +22,11 @@ const renderCImpl = ($, declarations, files) => {
   const parts = []
 
   parts.push(`#include "${cppHeaderFileName}"
-#include "${cHeaderFileName}"`
+#include "${cHeaderFileName}"
+#include "cpp4susans_priv.h"
+
+CPP4SUSANS_DEF_MAP_DECL(SkISize, SkISize_struct)
+CPP4SUSANS_DEF_MAP_DECL(SkSize, SkSize_struct)`
   )
 
   for (const d of declarations) {
