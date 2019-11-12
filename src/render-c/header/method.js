@@ -23,14 +23,23 @@ const getOriginalMethodName = (methodType, node) => {
 }
 
 const getMethodName = ($, declaration) => {
-  const {type, node, isStatic} = declaration
+  const {type, node, isStatic, args} = declaration
+
   const originalName = getOriginalMethodName(type, node)
   const convertedName = type == 'OPERATORMETHOD'
     ? convertOperatorName(originalName)
     : originalName
+
   const tag = TAGS[type]
+
   const suffix = isStatic ? ['static'] : []
-  const parts = [getContextPath($, node), convertedName, tag, suffix]
+
+  // When there's method overload, there may be duplicate method names.
+  // Dedup by simply including arg names to the method name.
+  // In the future when there's problem, we can also include arg types.
+  const argNames = args.map((idx, arg) => $(arg).attr('name') || `arg${idx}`).get()
+
+  const parts = [getContextPath($, node), convertedName, tag, suffix, argNames]
   return parts.flat().join('_')
 }
 
