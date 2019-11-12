@@ -1,4 +1,4 @@
-const {renderArgs: renderArgsUtil} = require('../../render-util/arg')
+const {collectRenderArgs, formatRenderedArgs} = require('../../render-util/arg')
 const {getCDataType} = require('../data')
 
 const renderSelfArg = ($, selfId) => {
@@ -8,29 +8,22 @@ const renderSelfArg = ($, selfId) => {
   return type + (isClass ? '* self' : ' self')
 }
 
-const renderArg = ($, arg) => {
+const renderArg = ($, arg, idx) => {
   const node = $(arg)
-  const name = node.attr('name')
+  const name = node.attr('name') || `arg${idx}`
   const typeId = node.attr('type')
   const type = getCDataType($, typeId)
   return `${type} ${name}`
 }
 
 const renderArgs = ($, args, selfId) => {
-  const a = selfId
-    ? {
-      each: (callback) => {
-        callback(0, selfId)
-        args.each((idx, arg) => callback(idx + 1, arg))
-      }
-    }
-    : args
+  const acc = collectRenderArgs($, args, renderArg)
 
-  return renderArgsUtil($, a, ($, arg) =>
-    typeof arg === 'string'
-      ? renderSelfArg($, arg)
-      : renderArg($, $(arg))
-  )
+  if (selfId) {
+    acc.unshift(renderSelfArg($, selfId))
+  }
+
+  return formatRenderedArgs(acc)
 }
 
 module.exports = {

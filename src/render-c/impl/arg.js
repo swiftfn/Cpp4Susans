@@ -1,9 +1,9 @@
-const {renderArgs: renderArgsUtil} = require('../../render-util/arg')
+const {formatRenderArgs} = require('../../render-util/arg')
 const {getCDataType} = require('../data')
 
-const renderArg = ($, arg) => {
+const renderArg = ($, arg, idx) => {
   const node = $(arg)
-  const name = node.attr('name')
+  const name = node.attr('name') || `arg${idx}`
   const typeId = node.attr('type')
   const type = getCDataType($, typeId)
   // TODO Type cast arg from C to C++
@@ -12,7 +12,7 @@ const renderArg = ($, arg) => {
 }
 
 const renderArgs = ($, args) =>
-  renderArgsUtil($, args, renderArg, '  ')
+  formatRenderArgs($, args, renderArg, '  ')
 
 module.exports = {
   renderArgs

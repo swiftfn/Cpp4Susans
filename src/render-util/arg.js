@@ -1,15 +1,27 @@
-const renderArgs = ($, args, renderArg, indent) => {
-  if (args.length === 0) {
+const collectRenderArgs = ($, args, renderArg) => {
+  const acc = []
+  args.each((idx, arg) => acc.push(renderArg($, arg, idx)))
+  return acc
+}
+
+const formatRenderedArgs = (renderedArgs, extraIndent) => {
+  if (renderedArgs.length === 0) {
     return '()'
   }
 
-  const acc = []
-  const idt = (indent || '')
+  const idt = (extraIndent || '')
   const argIdt = idt + '  '
-  args.each((_, arg) => acc.push(argIdt + renderArg($, arg)))
+  const acc = renderedArgs.map((renderedArg) => argIdt + renderedArg)
   return '(\n' + acc.join(',\n') + '\n' + idt + ')'
 }
 
+const formatRenderArgs = ($, args, renderArg, extraIndent) => {
+  const renderedArgs = collectRenderArgs($, args, renderArg)
+  return formatRenderedArgs(renderedArgs, extraIndent)
+}
+
 module.exports = {
-  renderArgs
+  collectRenderArgs,
+  formatRenderedArgs,
+  formatRenderArgs
 }

@@ -1,16 +1,16 @@
-const {renderArgs: renderArgsUtil} = require('../render-util/arg')
+const {formatRenderArgs} = require('../render-util/arg')
 const {getSwiftDataType} = require('./data')
 
-const renderDeclArg = ($, arg) => {
+const renderDeclArg = ($, arg, idx) => {
   const node = $(arg)
-  const name = node.attr('name')
+  const name = node.attr('name') || `arg${idx}`
   const typeId = node.attr('type')
   const type = getSwiftDataType($, typeId)
   return `${name}: ${type}`
 }
 
 const renderDeclArgs = ($, args) =>
-  renderArgsUtil($, args, renderDeclArg)
+  formatRenderArgs($, args, renderDeclArg)
 
 module.exports = {
   renderDeclArg,
