@@ -1,6 +1,6 @@
 const {createRegistry} = require('../../registry')
 const {renderParts} = require('../../render-util/groups')
-const {FILE_NAME: PRIV_FILE_NAME} = require('../priv')
+const {renderMapDecls} = require('./map-decl')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -22,13 +22,9 @@ const renderCImpl = ($, declarations, files) => {
 
   const parts = []
 
-  parts.push(`#include "${cppHeaderFileName}"
-#include "${cHeaderFileName}"
-#include "${PRIV_FILE_NAME}"
-
-CPP4SUSANS_DEF_MAP_DECL(SkISize, SkISize_struct)
-CPP4SUSANS_DEF_MAP_DECL(SkSize, SkSize_struct)`
-  )
+  parts.push(`#include "${cppHeaderFileName}"`)
+  parts.push(`#include "${cHeaderFileName}"`)
+  parts.push(renderMapDecls($, declarations))
 
   for (const d of declarations) {
     parts.push(render(d))
