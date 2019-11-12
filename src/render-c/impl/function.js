@@ -1,12 +1,8 @@
 const {renderFunctionSignature} = require('../header/function')
+const {renderFunctionOrMethodBody} = require('./body')
 
-const renderOperatorFunctionBody = (declaration) => {
-  const {node, args} = declaration
-  const opName = node.attr('name')
-  const arg0 = args.eq(0).attr('name')
-  const arg1 = args.eq(1).attr('name')
-  return `return operator${opName}(${arg0}, ${arg1});`
-}
+const renderOperatorFunctionBody = ($, declaration) =>
+  renderFunctionOrMethodBody($, declaration, true, true)
 
 const renderBody = {
   OPERATORFUNCTION: renderOperatorFunctionBody
@@ -14,9 +10,9 @@ const renderBody = {
 
 const renderFunctionImpl = ($, declaration, render, cppHeaderBaseFileName) => {
   const {type} = declaration
-  const body = renderBody[type](declaration)
+  const body = renderBody[type]($, declaration)
   return `${renderFunctionSignature($, declaration, cppHeaderBaseFileName)} {
-  ${body}
+${body}
 }`
 }
 

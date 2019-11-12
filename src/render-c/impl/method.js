@@ -1,52 +1,26 @@
-const {getContextPath} = require('../../castxml')
-
-const {getCDataType} = require('../data')
 const {renderMethodSignature} = require('../header/method')
-const {toCppMacro, toC} = require('../priv')
+const {toCMacro} = require('../priv')
 
 const {renderArgs} = require('./arg')
-
-const getContainerName = ($, node) =>
-  getContextPath($, node).join('.')
+const {getContainerName, renderFunctionOrMethodBody} = require('./body')
 
 const renderContructorBody = ($, declaration) => {
   const {node, args} = declaration
   const className = getContainerName($, node)
   const renderedArgs = renderArgs($, args)
-  return `  return new ${className}${renderedArgs};`
+  return `  return ${toCMacro}(new ${className}${renderedArgs});`
 }
 
 const renderDestructorBody = () => {
   return `  delete self;`
 }
 
-const renderMethodBody = ($, declaration, isOperator) => {
-  const {node, belongsToClass, isStatic, args, returns} = declaration
-
-  const methodName = node.attr('name')
-  const actionName = isOperator ? 'operator' + methodName : methodName
-
-  const renderedArgs = renderArgs($, args)
-
-  const {category: returnCategory, name: returnType} = getCDataType($, returns)
-
-  const subject = isStatic
-    ? getContainerName($, node) + '::'
-    : belongsToClass ? `${toCppMacro}(self)->` : `${toCppMacro}(self).`
-
-  const call = `${subject}${actionName}${renderedArgs}`
-
-  return returnType === 'void'
-    ? `  ${toC(returnCategory, call)};`
-    : `  return ${toC(returnCategory, call)};`
-}
-
 const renderNormalMethodBody = ($, declaration) => {
-  return renderMethodBody($, declaration, false)
+  return renderFunctionOrMethodBody($, declaration, false, false)
 }
 
 const renderOperatorBody = ($, declaration) => {
-  return renderMethodBody($, declaration, true)
+  return renderFunctionOrMethodBody($, declaration, false, true)
 }
 
 const renderBody = {

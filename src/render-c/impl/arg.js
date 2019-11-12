@@ -7,8 +7,8 @@ const renderArg = ($, arg, idx) => {
   const node = $(arg)
   const name = node.attr('name') || `arg${idx}`
   const typeId = node.attr('type')
-  const {catetory} = getCDataType($, typeId)
-  return toCpp(catetory, name)
+  const {category} = getCDataType($, typeId)
+  return toCpp(category, name)
 }
 
 const renderArgs = ($, args) =>
