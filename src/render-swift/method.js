@@ -1,10 +1,16 @@
 const {getMethodName} = require('../render-c/header/method')
 
 const {renderDeclArgs} = require('./arg-decl')
+const {renderImplArgs} = require('./arg-impl')
 const {getMethodSwiftReturnType} = require('./data')
 
 const renderConstructor = ($, declaration) => {
-  return `public init() {
+  const {args} = declaration
+  const cName = getMethodName($, declaration)
+  const declArgs = renderDeclArgs($, args)
+  const implArgs = renderImplArgs($, args)
+  return `public init${declArgs} {
+  ${cName}${implArgs}
 }`
 }
 
@@ -16,14 +22,16 @@ const renderDestructor = ($, declaration) => {
 const renderMethodDecl = ($, declaration) => {
   const {type, node, args, returns} = declaration
   const swiftName = node.attr('name')
-  const renderedArgs = renderDeclArgs($, args)
+  const declArgs = renderDeclArgs($, args)
   const returnType = getMethodSwiftReturnType($, node, type, returns)
-  return `public ${swiftName}${renderedArgs} -> ${returnType}`
+  return `public ${swiftName}${declArgs} -> ${returnType}`
 }
 
 const renderMethodImpl = ($, declaration) => {
+  const {args} = declaration
   const cName = getMethodName($, declaration)
-  return `  return ${cName}()`
+  const implArgs = renderImplArgs($, args)
+  return `  return ${cName}${implArgs}`
 }
 
 const renderMethod = ($, declaration) => {

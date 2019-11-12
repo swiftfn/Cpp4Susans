@@ -10,8 +10,8 @@ const renderImplArg = ($, arg, idx) => {
   return name
 }
 
-const renderDeclArgs = ($, args) =>
-  formatRenderArgs($, args, renderImplArg)
+const renderImplArgs = ($, args) =>
+  formatRenderArgs($, args, renderImplArg, '  ')
 
 module.exports = {
   renderImplArg,
