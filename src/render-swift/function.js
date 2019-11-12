@@ -6,7 +6,7 @@ const {getMethodSwiftReturnType} = require('./data')
 const renderOperatorFunction = ($, declaration, render, cppHeaderBaseFileName) => {
   const {type, node, args, returns} = declaration
 
-  const cName = getFunctionName(declaration, cppHeaderBaseFileName)
+  const cName = getFunctionName($, declaration, cppHeaderBaseFileName)
 
   const swiftName = node.attr('name')
 

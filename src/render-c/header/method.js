@@ -1,14 +1,9 @@
 const {getContextPath} = require('../../castxml')
 const {getMethodCReturnType} = require('../data')
+
 const {renderArgs} = require('./arg')
 const {convertOperatorName} = require('./op')
-
-const TAGS = {
-  CONSTRUCTOR: ['constructor'],
-  DESTRUCTOR: ['destructor'],
-  METHOD: ['method'],
-  OPERATORMETHOD: ['op', 'method']
-}
+const {getSuffixes} = require('./overload')
 
 const getOriginalMethodName = (methodType, node) => {
   switch (methodType) {
@@ -23,23 +18,16 @@ const getOriginalMethodName = (methodType, node) => {
 }
 
 const getMethodName = ($, declaration) => {
-  const {type, node, isStatic, args} = declaration
+  const {type, node} = declaration
 
   const originalName = getOriginalMethodName(type, node)
   const convertedName = type == 'OPERATORMETHOD'
     ? convertOperatorName(originalName)
     : originalName
 
-  const tag = TAGS[type]
+  const suffixes = getSuffixes($, declaration)
 
-  const suffix = isStatic ? ['static'] : []
-
-  // When there's method overload, there may be duplicate method names.
-  // Dedup by simply including arg names to the method name.
-  // In the future when there's problem, we can also include arg types.
-  const argNames = args.map((idx, arg) => $(arg).attr('name') || `arg${idx}`).get()
-
-  const parts = [getContextPath($, node), convertedName, tag, suffix, argNames]
+  const parts = [getContextPath($, node), convertedName, suffixes]
   return parts.flat().join('_')
 }
 
