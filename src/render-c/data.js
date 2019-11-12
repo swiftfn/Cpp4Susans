@@ -1,4 +1,4 @@
-const {getContextPath} = require('../castxml')
+const {getContext, getContextPath} = require('../castxml')
 
 const withContextPath = ($, node, name) => {
   const path = getContextPath($, node).join('_')
@@ -75,7 +75,7 @@ const getCDataType = ($, idOrNode) => {
 
 const getMethodCReturnType = ($, node, methodType, returns) =>
   methodType === 'CONSTRUCTOR'
-    ? getContextPath($, node).join('_') + '*'
+    ? getCDataType($, getContext($, node)).name + '*'
     : methodType === 'DESTRUCTOR'
       ? 'void'
       : getCDataType($, returns).name
