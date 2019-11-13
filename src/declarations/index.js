@@ -1,4 +1,4 @@
-const {hasNoContext} = require('../castxml')
+const {hasNoContext} = require('../castxml/context')
 const {createRegistry} = require('../registry')
 
 const registry = createRegistry([

@@ -1,4 +1,4 @@
-const {getContextPath} = require('../../castxml')
+const {getContextPath} = require('../../castxml/context')
 
 const {getCDataType} = require('../data')
 const {TO_CPP_MACRO, toC} = require('../priv')

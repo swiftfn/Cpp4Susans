@@ -1,15 +1,17 @@
 {
-  "name": "skia2swift",
+  "name": "cpp4susans",
   "version": "1.0.0",
-  "description": "Convert Skia C++ library to Swift",
+  "description": "Tool to create bindings around C++ for other languages",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "castxml": "node src/castxml/parse.js",
+    "bindings": "node src/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ngoc Dao <ngocdaothanh@gmail.com>",
+  "license": "MIT",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "glob": "^7.1.6"
   },
   "engines": {
     "node": ">=12"

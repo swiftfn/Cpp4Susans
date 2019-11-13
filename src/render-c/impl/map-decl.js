@@ -1,4 +1,4 @@
-const {getContextPath} = require('../../castxml')
+const {getContextPath} = require('../../castxml/context')
 const {getCDataType} = require('../data')
 const {FILE_NAME: PRIV_FILE_NAME} = require('../priv')
 

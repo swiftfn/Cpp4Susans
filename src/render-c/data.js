@@ -1,4 +1,4 @@
-const {getContext, getContextPath} = require('../castxml')
+const {getContext, getContextPath} = require('../castxml/context')
 
 const withContextPath = ($, node, name) => {
   const path = getContextPath($, node).join('_')

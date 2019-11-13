@@ -1,4 +1,4 @@
-const {getContext} = require('../castxml')
+const {getContext} = require('../castxml/context')
 
 // A method can belong to a class or a struct.
 const collectMethod = ($, node) => {
