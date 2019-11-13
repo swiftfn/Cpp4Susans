@@ -8,11 +8,17 @@ const registry = createRegistry([
   require('./method')
 ])
 
+const IGNORED_TYPES = ['ENUMERATION']
+
 const renderCImpl = ($, declarations, files) => {
   const {cppHeaderFileName, cppHeaderBaseFileName, cHeaderFileName} = files
 
   const render = (declaration) => {
     const {type} = declaration
+    if (IGNORED_TYPES.includes(type)) {
+      return '';
+    }
+
     const renderFunc = registry[type]
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)

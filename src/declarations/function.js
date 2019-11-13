@@ -11,6 +11,7 @@ const collectFunction = ($, node) => {
 }
 
 const register = (registry) => {
+  registry['FUNCTION'] = collectFunction
   registry['OPERATORFUNCTION'] = collectFunction
 }
 

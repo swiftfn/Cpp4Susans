@@ -23,6 +23,9 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
     case 'long unsigned int':
       return 'UInt64'
 
+    case 'long long int':
+      return 'Int64'
+
     case 'unsigned int':
       return 'UInt32'
 

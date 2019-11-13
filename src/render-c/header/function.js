@@ -12,7 +12,7 @@ const getFunctionName = ($, declaration, cppHeaderBaseFileName) => {
   const originalName = node.attr('name')
   const convertedName = type == 'OPERATORFUNCTION'
     ? convertOperatorName(originalName)
-    : name
+    : originalName
 
   const suffixes = getSuffixes($, declaration)
 
@@ -34,6 +34,7 @@ const renderFunctionHeader = ($, declaration, render, cppHeaderBaseFileName) => 
 }
 
 const register = (registry) => {
+  registry['FUNCTION'] = renderFunctionHeader
   registry['OPERATORFUNCTION'] = renderFunctionHeader
 }
 

@@ -28,18 +28,27 @@ const getTopNodes = ($, fileId) => {
   return topNodes
 }
 
+const IGNORED_TOP_TYPES = ['TYPEDEF', 'VARIABLE']
+
 const getDeclarations = ($, topNodes) => {
   const collect = (node) => {
     const type = node.prop('nodeName')
+
     const collectFunc = registry[type]
     if (!collectFunc) {
-      throw new Error(`Invalid node type: ${type}`)
+      const id = node.attr('id')
+      throw new Error(`Invalid node type: ${type}, id: ${id}`)
     }
+
     return collectFunc($, node, collect)
   }
 
   return topNodes
-    .filter((idx, node) => isTopScope($(node)))
+    .filter((idx, node) => {
+      const n = $(node)
+      const type = n.prop('nodeName')
+      return isTopScope(n) && !IGNORED_TOP_TYPES.includes(type)
+    })
     .map((idx, node) => collect($(node)))
     .get()
 }
