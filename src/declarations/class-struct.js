@@ -43,7 +43,8 @@ const collectClassOrStruct = ($, node, collect) => {
 
     const type = member.prop('nodeName')
     switch (type) {
-      case 'FIELD': {
+      case 'FIELD':
+      case 'VARIABLE': {
         fields.push(collect(member))
         break
       }
