@@ -1,16 +1,22 @@
 const cheerio = require('cheerio')
 const fs = require('fs')
+const path = require('path')
 
-const getCppHeaderBaseFileName = (cppHeaderFileName) =>
-  cppHeaderFileName.substring(0, cppHeaderFileName.indexOf('.'))
+const getBaseFileName = (filePath) => {
+  const basename = path.basename(filePath)
+  const withoutExt = basename.substr(0, basename.lastIndexOf('.'))
+  return withoutExt
+}
 
+// Loads CastXML file and passes it to Cheerio.
 const loadCastXml = (fileName) => {
   // https://github.com/Leonidas-from-XIV/node-xml2js
   const xml = fs.readFileSync(fileName)
   return cheerio.load(xml, {xmlMode: true})
 }
 
-const writeOutput = (files) => {
+// Writes {filePath1: content1, filePath2: content2}.
+const writeFiles = (files) => {
   const fileNames = Object.keys(files)
   for (const fileName of fileNames) {
     const content = files[fileName]
@@ -20,7 +26,7 @@ const writeOutput = (files) => {
 }
 
 module.exports = {
-  getCppHeaderBaseFileName,
+  getBaseFileName,
   loadCastXml,
-  writeOutput
+  writeFiles
 }

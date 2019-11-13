@@ -20,14 +20,20 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
     case 'int':
       return 'Int32'
 
+    case 'long long int':
+        return 'Int64'
+
     case 'long unsigned int':
       return 'UInt64'
 
-    case 'long long int':
-      return 'Int64'
+    case 'short unsigned int':
+      return 'UInt16'
 
     case 'unsigned int':
       return 'UInt32'
+
+    case 'unsigned char':
+      return 'UInt8'
 
     case 'void':
       return 'Void'
@@ -69,6 +75,10 @@ const getSwiftDataType = ($, idOrNode) => {
 
     case 'POINTERTYPE': {
       return 'UnsafePointer<' + getSwiftDataType($, type) + '>'
+    }
+
+    case 'FUNCTIONTYPE': {
+      return 'TODO FUNCTIONTYPE'
     }
 
     case 'CVQUALIFIEDTYPE': {

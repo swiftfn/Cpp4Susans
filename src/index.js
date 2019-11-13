@@ -1,23 +1,30 @@
+const glob = require('glob')
+
 const {collectDeclarations} = require('./declarations')
-const {loadCastXml, writeOutput} = require('./file')
+const {getBaseFileName, loadCastXml, writeFiles} = require('./file')
 const {renderC} = require('./render-c')
 const {renderSwift} = require('./render-swift')
 
-// const CAST_XML = 'input/SkSize.xml'
-// const CPP_HEADER = 'SkSize.h'
+const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./render-c/priv')
 
-// const CAST_XML = 'input/SkCanvas.xml'
-// const CPP_HEADER = 'SkCanvas.h'
+function main() {
+  const castXmls = glob.sync('input/*.xml')
+  // const castXmls = ['input/SkBitmap.xml']
 
-const CAST_XML = 'input/SkTypes.xml'
-const CPP_HEADER = 'SkTypes.h'
+  writeFiles({[PRIV_FILE_NAME]: PRIV_CONTENT})
 
-async function main() {
-  const $ = await loadCastXml(CAST_XML)
-  const declarations = collectDeclarations($, CPP_HEADER)
+  for (const castXml of castXmls) {
+    console.log(`Processing ${castXml}...`)
 
-  writeOutput(renderC($, declarations, CPP_HEADER))
-  writeOutput(renderSwift($, declarations, CPP_HEADER))
+    const baseFileName = getBaseFileName(castXml)
+    const cppHeader = `${baseFileName}.h`
+
+    const $ = loadCastXml(castXml)
+    const declarations = collectDeclarations($, cppHeader)
+
+    writeFiles(renderC($, declarations, cppHeader))
+    writeFiles(renderSwift($, declarations, cppHeader))
+  }
 }
 
 main()

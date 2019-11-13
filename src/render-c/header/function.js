@@ -22,11 +22,13 @@ const getFunctionName = ($, declaration, cppHeaderBaseFileName) => {
 
 const renderFunctionSignature = ($, declaration, cppHeaderBaseFileName) => {
   const {args, returns} = declaration
-  return (
-    getCDataType($, returns).name + ' ' +
-    getFunctionName($, declaration, cppHeaderBaseFileName) +
-    renderArgs($, args)
-  )
+
+  const functionName = getFunctionName($, declaration, cppHeaderBaseFileName)
+  // console.log('renderFunctionSignature', functionName)
+
+  const renderedArgs = renderArgs($, args)
+  const returnType = getCDataType($, returns).name
+  return returnType + ' ' + functionName + renderedArgs
 }
 
 const renderFunctionHeader = ($, declaration, render, cppHeaderBaseFileName) => {

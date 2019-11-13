@@ -1,6 +1,6 @@
 const {execSync} = require('child_process')
 const glob = require('glob')
-const path = require('path')
+const {getBaseFileName} = require('../file')
 
 const castxml = '/Users/ndao/src/clang/CastXML/build/bin/castxml'
 
@@ -37,9 +37,8 @@ const parse = (headerFile, xmlFile) => {
 }
 
 const getXmlFile = (headerFile) => {
-  const basename = path.basename(headerFile)
-  const withoutExt = basename.substr(0, basename.lastIndexOf('.'))
-  return `input/${withoutExt}.xml`
+  const baseFileName = getBaseFileName(headerFile)
+  return `input/${baseFileName}.xml`
 }
 
 for (const headerPattern of headerPatterns) {

@@ -33,14 +33,18 @@ const getMethodName = ($, declaration) => {
 
 const renderMethodSignature = ($, declaration) => {
   const {type, node, isStatic, args, returns} = declaration
+
+  const methodName = getMethodName($, declaration)
+  // console.log('renderMethodSignature', methodName)
+
   const selfId = !isStatic && type !== 'CONSTRUCTOR'
     ? node.attr('context')
     : undefined
-  return (
-    getMethodCReturnType($, node, type, returns) + ' ' +
-    getMethodName($, declaration) +
-    renderArgs($, args, selfId)
-  )
+  const renderedArgs = renderArgs($, args, selfId)
+
+  const returnType = getMethodCReturnType($, node, type, returns)
+
+  return returnType + ' ' + methodName + renderedArgs
 }
 
 const renderMethodHeader = ($, declaration) => {

@@ -1,4 +1,4 @@
-const {getCppHeaderBaseFileName} = require('../file')
+const {getBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
 const {indent} = require('../render-util/indent')
 const {renderParts} = require('../render-util/groups')
@@ -39,7 +39,7 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
 }
 
 const renderSwift = ($, declarations, cppHeaderFileName) => {
-  const cppHeaderBaseFileName = getCppHeaderBaseFileName(cppHeaderFileName)
+  const cppHeaderBaseFileName = getBaseFileName(cppHeaderFileName)
   const swiftFileName = `${cppHeaderBaseFileName}.swift`
 
   return {
