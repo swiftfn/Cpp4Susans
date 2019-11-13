@@ -22,6 +22,7 @@ const register = (registry) => {
   registry['DESTRUCTOR'] = collectMethod
   registry['METHOD'] = collectMethod
   registry['OPERATORMETHOD'] = collectMethod
+  registry['CONVERTER'] = collectMethod
 }
 
 module.exports = {

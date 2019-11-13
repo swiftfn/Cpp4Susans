@@ -7,8 +7,10 @@ const {getSuffixes} = require('./overload')
 
 const getOriginalMethodName = (methodType, node) => {
   switch (methodType) {
+    // Rely on methodType being included in the final name
     case 'CONSTRUCTOR':
     case 'DESTRUCTOR':
+    case 'CONVERTER':
       return []
 
     case 'METHOD':
@@ -56,6 +58,7 @@ const register = (registry) => {
   registry['DESTRUCTOR'] = renderMethodHeader
   registry['METHOD'] = renderMethodHeader
   registry['OPERATORMETHOD'] = renderMethodHeader
+  registry['CONVERTER'] = renderMethodHeader
 }
 
 module.exports = {

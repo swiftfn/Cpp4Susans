@@ -68,6 +68,10 @@ const getCDataType = ($, idOrNode) => {
       return 'TODO FUNCTIONTYPE'
     }
 
+    case 'ARRAYTYPE': {
+      return 'TODO ARRAYTYPE'
+    }
+
     // https://en.cppreference.com/w/cpp/language/cv
     case 'CVQUALIFIEDTYPE': {
       return getCDataType($, type)

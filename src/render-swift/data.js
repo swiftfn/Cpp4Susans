@@ -12,7 +12,11 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
       return 'Bool'
 
     case 'char':
+    case 'signed char':
       return 'Int8'
+
+    case 'double':
+      return 'Double'
 
     case 'float':
       return 'Float'
@@ -20,14 +24,16 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
     case 'int':
       return 'Int32'
 
+    case 'long int':
     case 'long long int':
       return 'Int64'
 
     case 'long long unsigned int':
-      return 'UInt64'
-
     case 'long unsigned int':
       return 'UInt64'
+
+    case 'short int':
+        return 'Int16'
 
     case 'short unsigned int':
       return 'UInt16'

@@ -44,6 +44,7 @@ ${impl}
 
 const renderOperatorMethod = ($, declaration) => {
   return `public op() -> {
+TODO
 }`
 }
 
@@ -52,6 +53,7 @@ const register = (registry) => {
   registry['DESTRUCTOR'] = renderDestructor
   registry['METHOD'] = renderMethod
   registry['OPERATORMETHOD'] = renderOperatorMethod
+  registry['CONVERTER'] = renderOperatorMethod
 }
 
 module.exports = {

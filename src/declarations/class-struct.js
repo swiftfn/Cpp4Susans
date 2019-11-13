@@ -69,7 +69,8 @@ const collectClassOrStruct = ($, node, collect) => {
         break
       }
 
-      case 'OPERATORMETHOD': {
+      case 'OPERATORMETHOD':
+      case 'CONVERTER': {
         operators.push(collect(member))
         break
       }

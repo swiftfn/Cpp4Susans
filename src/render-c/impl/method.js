@@ -27,7 +27,8 @@ const renderBody = {
   'CONSTRUCTOR': renderContructorBody,
   'DESTRUCTOR': renderDestructorBody,
   'METHOD': renderNormalMethodBody,
-  'OPERATORMETHOD': renderOperatorBody
+  'OPERATORMETHOD': renderOperatorBody,
+  'CONVERTER': renderOperatorBody
 }
 
 const renderMethodImpl = ($, declaration) => {
@@ -42,6 +43,7 @@ const register = (registry) => {
   registry['DESTRUCTOR'] = renderMethodImpl
   registry['METHOD'] = renderMethodImpl
   registry['OPERATORMETHOD'] = renderMethodImpl
+  registry['CONVERTER'] = renderMethodImpl
 }
 
 module.exports = {
