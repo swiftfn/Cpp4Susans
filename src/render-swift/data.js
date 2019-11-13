@@ -21,7 +21,10 @@ const cppFundamentalTypeToSwift = (cppFundamentalType) => {
       return 'Int32'
 
     case 'long long int':
-        return 'Int64'
+      return 'Int64'
+
+    case 'long long unsigned int':
+      return 'UInt64'
 
     case 'long unsigned int':
       return 'UInt64'
@@ -66,7 +69,9 @@ const getSwiftDataType = ($, idOrNode) => {
     }
 
     case 'TYPEDEF': {
-      return getSwiftDataType($, type)
+      return name === 'nullptr_t'
+        ? 'nullptr_t'
+        : getSwiftDataType($, type)
     }
 
     case 'REFERENCETYPE': {

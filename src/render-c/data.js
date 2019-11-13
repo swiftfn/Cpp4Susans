@@ -43,7 +43,9 @@ const getCDataType = ($, idOrNode) => {
     }
 
     case 'TYPEDEF': {
-      return getCDataType($, type)
+      return name === 'nullptr_t'
+        ? 'nullptr_t'
+        : getCDataType($, type)
     }
 
     case 'REFERENCETYPE': {

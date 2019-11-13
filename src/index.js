@@ -8,8 +8,11 @@ const {renderSwift} = require('./render-swift')
 const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./render-c/priv')
 
 function main() {
-  const castXmls = glob.sync('input/*.xml')
-  // const castXmls = ['input/SkBitmap.xml']
+  // const castXmls = glob.sync('input/*.xml')
+  const castXmls = ['input/SkMatrix.xml']
+
+  // const lastSuccessIdx = castXmls.findIndex((path) => path.endsWith('/SkFont.xml'))
+  // castXmls.splice(0, lastSuccessIdx + 1)
 
   writeFiles({[PRIV_FILE_NAME]: PRIV_CONTENT})
 
