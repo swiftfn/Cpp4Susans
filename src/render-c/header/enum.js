@@ -12,10 +12,16 @@ const renderValues = ($, values) =>
     '  ' + renderValue($, value)
   ).get().join(',\n')
 
-const renderEnumHeader = ($, declaration) => {
-  const {node, values} = declaration
+const renderEnumForwardDeclaration = ($, declaration) => {
+  const {node} = declaration
   const {name} = getCDataType($, node)
-  return `enum ${name} {
+  return `enum ${name}`
+}
+
+const renderEnumHeader = ($, declaration) => {
+  const {values} = declaration
+  const forward = renderEnumForwardDeclaration($, declaration)
+  return `${forward} {
 ${renderValues($, values)}
 };`
 }
@@ -25,5 +31,6 @@ const register = (registry) => {
 }
 
 module.exports = {
+  renderEnumForwardDeclaration,
   register
 }

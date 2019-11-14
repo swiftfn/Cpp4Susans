@@ -10,7 +10,7 @@ const registry = createRegistry([
 
 const IGNORED_TYPES = ['ENUMERATION']
 
-const renderCImpl = ($, declarations, files) => {
+const renderImpl = ($, declarations, files) => {
   const {cppHeaderFileName, cppHeaderBaseFileName, cHeaderFileName} = files
 
   const render = (declaration) => {
@@ -40,5 +40,5 @@ const renderCImpl = ($, declarations, files) => {
 }
 
 module.exports = {
-  renderCImpl
+  renderImpl
 }

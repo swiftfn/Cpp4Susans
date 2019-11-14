@@ -9,7 +9,7 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const renderCHeader = ($, declarations, files) => {
+const renderHeader = ($, declarations, files) => {
   const {cppHeaderBaseFileName} = files
   const headerSignature = `${cppHeaderBaseFileName}_CPP4SUSANS_C_HEADER`
 
@@ -47,5 +47,5 @@ extern "C" {
 }
 
 module.exports = {
-  renderCHeader
+  renderHeader
 }

@@ -48,7 +48,7 @@ const getFileMap = ($, declarations, cppHeaderFileName) => {
 }
 
 const writeSwiftFiles = (castXmls) => {
-  console.log('Generating C binding...')
+  console.log('Generating Swift binding...')
 
   for (const castXml of castXmls) {
     const [$, declarations, cppHeaderFileName] = loadDeclarationsFromCastXml(castXml)
