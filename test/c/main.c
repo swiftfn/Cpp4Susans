@@ -1,6 +1,5 @@
 #include <stdio.h>
-
-#include "Skia_c.h"
+#include "cpp4susans_umbrella.h"
 
 int main() {
   printf("Hi\n");
