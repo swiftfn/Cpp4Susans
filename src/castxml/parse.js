@@ -1,6 +1,6 @@
 const {execSync} = require('child_process')
 const glob = require('glob')
-const {getBaseFileName} = require('../file')
+const {getBaseFileName} = require('../render-util/file')
 
 const castxml = '/Users/ndao/src/clang/CastXML/build/bin/castxml'
 
