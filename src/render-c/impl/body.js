@@ -1,9 +1,9 @@
 const {getContextPath} = require('../../castxml/context')
 
 const {getCDataType} = require('../data')
-const {TO_CPP_MACRO, toC} = require('../priv')
 
 const {renderArgs} = require('./arg')
+const {TO_CPP_MACRO, toC} = require('./priv')
 
 const getContainerName = ($, node) =>
   getContextPath($, node).join('::')

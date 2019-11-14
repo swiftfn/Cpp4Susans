@@ -1,8 +1,8 @@
 const {renderMethodSignature} = require('../header/method')
-const {TO_C_MACRO} = require('../priv')
 
 const {renderArgs} = require('./arg')
 const {getContainerName, renderFunctionOrMethodBody} = require('./body')
+const {TO_C_MACRO} = require('./priv')
 
 const renderContructorBody = ($, declaration) => {
   const {node, args} = declaration

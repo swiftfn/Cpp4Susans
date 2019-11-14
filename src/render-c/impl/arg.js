@@ -1,7 +1,6 @@
 const {formatRenderArgs} = require('../../render-util/arg')
-
 const {getCDataType} = require('../data')
-const {toCpp} = require('../priv')
+const {toCpp} = require('./priv')
 
 const renderArg = ($, arg, idx) => {
   const node = $(arg)

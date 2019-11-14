@@ -1,6 +1,6 @@
 const {getContextPath} = require('../../castxml/context')
 const {getCDataType} = require('../data')
-const {FILE_NAME: PRIV_FILE_NAME} = require('../priv')
+const {FILE_NAME: PRIV_FILE_NAME} = require('./priv')
 
 const collect = ($, declarations, acc) => {
   for (const d of declarations) {

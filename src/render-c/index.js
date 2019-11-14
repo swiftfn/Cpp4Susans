@@ -3,11 +3,10 @@ const {getBaseFileName} = require('../file')
 const {getCHeaderFileName, getCImplFileName} = require('./file')
 const {renderCHeader} = require('./header')
 const {renderCImpl} = require('./impl')
-
-const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./priv')
+const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./impl/priv')
 
 const renderCPriv = () => (
-  {[`c/include/${PRIV_FILE_NAME}`]: PRIV_CONTENT}
+  {[`c/impl/${PRIV_FILE_NAME}`]: PRIV_CONTENT}
 )
 
 const renderC = ($, declarations, cppHeaderFileName) => {
