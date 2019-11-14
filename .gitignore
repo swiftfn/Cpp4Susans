@@ -1,6 +1,7 @@
 /node_modules
 
+/config.js
 /input
-/output
 
+/output
 /test/c/a.out

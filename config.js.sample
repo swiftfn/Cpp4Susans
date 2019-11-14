@@ -1,0 +1,40 @@
+const {HOME} = process.env
+
+const castxml = `${HOME}/src/CastXML/build/bin/castxml`
+
+const libDir = `${HOME}/src/skia`
+
+// Paths are relative to libDir
+const headerPatterns = [
+  'include/core/*.h'
+]
+
+const std = 'c++14'
+
+const clangDir = `${HOME}/opt/clang+llvm-9.0.0`
+
+// On Mac, "xcrun --show-sdk-path" will show the default SDK path
+const systemIncludeDirs = [
+  '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include'
+]
+
+const includeDirs = [
+  libDir,
+  `${libDir}/include/config`,
+  `${clangDir}/include/c++/v1`,
+  ...systemIncludeDirs
+]
+
+const flags = [
+  '-DSK_CPU_LENDIAN'
+]
+
+module.exports = {
+  castxml,
+  libDir,
+  headerPatterns,
+  std,
+  clangDir,
+  includeDirs,
+  flags
+}

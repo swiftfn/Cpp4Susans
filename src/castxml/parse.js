@@ -1,30 +1,16 @@
+const {
+  castxml,
+  libDir,
+  headerPatterns,
+  std,
+  clangDir,
+  includeDirs,
+  flags
+} = require('../../config')
+
 const {execSync} = require('child_process')
 const glob = require('glob')
 const {getBaseFileName} = require('../render-util/file')
-
-const castxml = '/Users/ndao/src/clang/CastXML/build/bin/castxml'
-
-const libDir = '/Users/ndao/src/canvas/am-node/skia'
-
-// Paths are relative to libDir
-const headerPatterns = [
-  'include/core/*.h'
-]
-
-const std = 'c++14'
-
-const clangDir = '/Users/ndao/opt/clang+llvm-9.0.0'
-
-const includeDirs = [
-  libDir,
-  `${libDir}/include/config`,
-  `${clangDir}/include/c++/v1`,
-  '/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include'
-]
-
-const flags = [
-  '-DSK_CPU_LENDIAN'
-]
 
 const parse = (headerFile, xmlFile) => {
   execSync(

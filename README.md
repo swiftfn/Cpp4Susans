@@ -12,16 +12,21 @@ Successfully works for C++ libraries:
 
 ## Requirements
 
+* [Clang and LLVM 9+](http://releases.llvm.org/download.html)
 * [CastXML](https://github.com/CastXML/CastXML)
-* Node.js 12+
+* [Node.js](https://nodejs.org) 12+
 
 ## Parse C++ headers to CasXML files
+
+Copy `config.js.sample` to `config.js` and modify if neccessary, then run:
 
 ```
 npm run castxml
 ```
 
 ## Generate bindings for C and other languages
+
+Run:
 
 ```
 npm run bindings
