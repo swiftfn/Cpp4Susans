@@ -1,7 +1,7 @@
-const {getBaseFileName} = require('../file')
 const {createRegistry} = require('../registry')
-const {indent} = require('../render-util/indent')
+const {getBaseFileName, loadDeclarationsFromCastXml, writeFiles} = require('../render-util/file')
 const {renderParts} = require('../render-util/groups')
+const {indent} = require('../render-util/indent')
 
 const registry = createRegistry([
   require('./class-struct'),
@@ -10,7 +10,7 @@ const registry = createRegistry([
   require('./method')
 ])
 
-const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
+const renderSwift = ($, declarations, cppHeaderBaseFileName) => {
   // For convenience, when "render" below is passed directly in map:
   // array.map(render)
   const NO_INDENT = 'NO_INDENT_MAGIC'
@@ -38,15 +38,25 @@ const doRenderSwift = ($, declarations, cppHeaderBaseFileName) => {
   return renderParts(parts)
 }
 
-const renderSwift = ($, declarations, cppHeaderFileName) => {
+const getFileMap = ($, declarations, cppHeaderFileName) => {
   const cppHeaderBaseFileName = getBaseFileName(cppHeaderFileName)
   const swiftFileName = `${cppHeaderBaseFileName}.swift`
 
   return {
-    [`swift/${swiftFileName}`]: doRenderSwift($, declarations, cppHeaderBaseFileName)
+    [`swift/${swiftFileName}`]: renderSwift($, declarations, cppHeaderBaseFileName)
+  }
+}
+
+const writeSwiftFiles = (castXmls) => {
+  console.log('Generating C binding...')
+
+  for (const castXml of castXmls) {
+    const [$, declarations, cppHeaderFileName] = loadDeclarationsFromCastXml(castXml)
+    const files = getFileMap($, declarations, cppHeaderFileName)
+    writeFiles(files)
   }
 }
 
 module.exports = {
-  renderSwift
+  writeSwiftFiles
 }

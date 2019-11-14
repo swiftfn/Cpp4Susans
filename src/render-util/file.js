@@ -3,6 +3,8 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 
+const {collectDeclarations} = require('../declarations')
+
 const getBaseFileName = (filePath) => {
   const basename = path.basename(filePath)
   const withoutExt = basename.substr(0, basename.lastIndexOf('.'))
@@ -13,10 +15,23 @@ const getDirName = (filePath) =>
   filePath.substr(0, filePath.lastIndexOf('/'))
 
 // Loads CastXML file and passes it to Cheerio.
-const loadCastXml = (fileName) => {
+const loadCastXml = (filePath) => {
   // https://github.com/Leonidas-from-XIV/node-xml2js
-  const xml = fs.readFileSync(fileName)
+  const xml = fs.readFileSync(filePath)
   return cheerio.load(xml, {xmlMode: true})
+}
+
+const loadDeclarationsFromCastXml = (filePath) => {
+  console.log(`\nProcessing ${filePath}...`)
+
+  const baseFileName = getBaseFileName(filePath)
+
+  // https://github.com/swiftfn/Cpp4Susans/issues/26
+  const cppHeaderFileName = `${baseFileName}.h`
+
+  const $ = loadCastXml(filePath)
+  const declarations = collectDeclarations($, cppHeaderFileName)
+  return [$, declarations, cppHeaderFileName]
 }
 
 // Writes {filePath1: content1, filePath2: content2}.
@@ -36,6 +51,6 @@ const writeFiles = (files) => {
 
 module.exports = {
   getBaseFileName,
-  loadCastXml,
+  loadDeclarationsFromCastXml,
   writeFiles
 }
