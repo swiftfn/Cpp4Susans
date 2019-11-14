@@ -26,7 +26,7 @@ const writeFiles = (files) => {
     const path = `output/${fileName}`
     const content = files[fileName]
 
-    console.log(`${fileName} ~${content.length} bytes`)
+    console.log(`${path} ~${content.length} bytes`)
 
     const dir = getDirName(path)
     mkdirp.sync(dir)

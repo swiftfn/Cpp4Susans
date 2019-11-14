@@ -4,6 +4,12 @@ const {getCHeaderFileName, getCImplFileName} = require('./file')
 const {renderCHeader} = require('./header')
 const {renderCImpl} = require('./impl')
 
+const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./priv')
+
+const renderCPriv = () => (
+  {[`c/include/${PRIV_FILE_NAME}`]: PRIV_CONTENT}
+)
+
 const renderC = ($, declarations, cppHeaderFileName) => {
   const cppHeaderBaseFileName = getBaseFileName(cppHeaderFileName)
   const cHeaderFileName = getCHeaderFileName(cppHeaderBaseFileName)
@@ -23,5 +29,6 @@ const renderC = ($, declarations, cppHeaderFileName) => {
 }
 
 module.exports = {
+  renderCPriv,
   renderC
 }

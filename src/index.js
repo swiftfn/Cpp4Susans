@@ -2,10 +2,8 @@ const glob = require('glob')
 
 const {collectDeclarations} = require('./declarations')
 const {getBaseFileName, loadCastXml, writeFiles} = require('./file')
-const {renderC} = require('./render-c')
+const {renderC, renderCPriv} = require('./render-c')
 const {renderSwift} = require('./render-swift')
-
-const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./render-c/priv')
 
 const main = () => {
   // const castXmls = ['input/SkMatrix.xml']
@@ -14,7 +12,7 @@ const main = () => {
   // const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkYUVAIndex.xml'))
   // castXmls.splice(0, skipToIdx)
 
-  writeFiles({[PRIV_FILE_NAME]: PRIV_CONTENT})
+  writeFiles(renderCPriv())
 
   for (const castXml of castXmls) {
     console.log(`\nProcessing ${castXml}...`)
