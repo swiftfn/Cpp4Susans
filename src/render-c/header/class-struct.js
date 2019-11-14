@@ -1,9 +1,9 @@
-const {renderGroups} = require('../../render-util/groups')
+const {renderGroups, renderParts} = require('../../render-util/groups')
 
 const {renderCoreClassHeader} = require('./core-class')
 const {renderCoreStructHeader} = require('./core-struct')
 
-const doRender = {
+const renderCore = {
   CLASS: renderCoreClassHeader,
   STRUCT: renderCoreStructHeader
 }
@@ -28,11 +28,11 @@ const renderClassStructHeader = ($, declaration, render) => {
     methods, operators
   ]
 
-  return [
+  return renderParts([
     renderGroups(groups1, render),
-    doRender[type]($, declaration, render),
+    renderCore[type]($, declaration, render),
     renderGroups(groups2, render)
-  ].filter(text => text.length > 0).join('\n\n')
+  ])
 }
 
 const register = (registry) => {
