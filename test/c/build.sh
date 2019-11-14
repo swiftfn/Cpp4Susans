@@ -1,2 +1,2 @@
-g++ main.c \
+g++ main.cpp \
 -I ../../output/c/include
