@@ -11,13 +11,13 @@ const main = () => {
   // const castXmls = ['input/SkMatrix.xml']
 
   const castXmls = glob.sync('input/*.xml')
-  const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkYUVAIndex.xml'))
-  castXmls.splice(0, skipToIdx)
+  // const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkYUVAIndex.xml'))
+  // castXmls.splice(0, skipToIdx)
 
   writeFiles({[PRIV_FILE_NAME]: PRIV_CONTENT})
 
   for (const castXml of castXmls) {
-    console.log(`Processing ${castXml}...`)
+    console.log(`\nProcessing ${castXml}...`)
 
     const baseFileName = getBaseFileName(castXml)
     const cppHeader = `${baseFileName}.h`

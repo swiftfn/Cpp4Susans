@@ -1,5 +1,6 @@
 const cheerio = require('cheerio')
 const fs = require('fs')
+const mkdirp = require('mkdirp')
 const path = require('path')
 
 const getBaseFileName = (filePath) => {
@@ -7,6 +8,9 @@ const getBaseFileName = (filePath) => {
   const withoutExt = basename.substr(0, basename.lastIndexOf('.'))
   return withoutExt
 }
+
+const getDirName = (filePath) =>
+  filePath.substr(0, filePath.lastIndexOf('/'))
 
 // Loads CastXML file and passes it to Cheerio.
 const loadCastXml = (fileName) => {
@@ -19,9 +23,14 @@ const loadCastXml = (fileName) => {
 const writeFiles = (files) => {
   const fileNames = Object.keys(files)
   for (const fileName of fileNames) {
+    const path = `output/${fileName}`
     const content = files[fileName]
+
     console.log(`${fileName} ~${content.length} bytes`)
-    fs.writeFileSync(`output/${fileName}`, content)
+
+    const dir = getDirName(path)
+    mkdirp.sync(dir)
+    fs.writeFileSync(path, content)
   }
 }
 

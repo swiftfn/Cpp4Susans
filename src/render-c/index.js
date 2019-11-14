@@ -17,8 +17,8 @@ const renderC = ($, declarations, cppHeaderFileName) => {
   }
 
   return {
-    [cHeaderFileName]: renderCHeader($, declarations, files),
-    [cImplFileName]: renderCImpl($, declarations, files)
+    [`c/include/${cHeaderFileName}`]: renderCHeader($, declarations, files),
+    [`c/impl/${cImplFileName}`]: renderCImpl($, declarations, files)
   }
 }
 

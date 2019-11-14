@@ -43,7 +43,7 @@ const renderSwift = ($, declarations, cppHeaderFileName) => {
   const swiftFileName = `${cppHeaderBaseFileName}.swift`
 
   return {
-    [swiftFileName]: doRenderSwift($, declarations, cppHeaderBaseFileName)
+    [`swift/${swiftFileName}`]: doRenderSwift($, declarations, cppHeaderBaseFileName)
   }
 }
 
