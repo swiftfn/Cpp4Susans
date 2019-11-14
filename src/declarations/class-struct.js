@@ -1,3 +1,5 @@
+const {isForwardDeclaration} = require('../castxml/context')
+
 const isPublic = (node) => {
   // console.log(node[0])
   return node.attr('access') === 'public'
@@ -36,7 +38,7 @@ const collectClassOrStruct = ($, node, collect) => {
     const member = $(`[id="${id}"]`)
     // console.log(member.attr('name'))
 
-    if (!isPublic(member) || isArtificial(member)) {
+    if (isForwardDeclaration(member) || !isPublic(member) || isArtificial(member)) {
       // console.log(member[0])
       continue
     }

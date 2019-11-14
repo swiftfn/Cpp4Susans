@@ -1,7 +1,9 @@
-// Return whether the node has parent.
-const hasNoContext = (node) => {
-  return node.attr('context') === '_1'
-}
+// Returns whether the node has no parent node.
+const hasNoContext = (node) =>
+  node.attr('context') === '_1'
+
+const isForwardDeclaration = (node) =>
+  node.attr('incomplete') === '1'
 
 const getContext = ($, node) => {
   const contextId = node.attr('context')
@@ -22,6 +24,7 @@ const getContextPath = ($, node) => {
 
 module.exports = {
   hasNoContext,
+  isForwardDeclaration,
   getContext,
   getContextPath
 }

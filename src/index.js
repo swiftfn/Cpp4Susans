@@ -11,7 +11,7 @@ const main = () => {
   // const castXmls = ['input/SkMatrix.xml']
 
   const castXmls = glob.sync('input/*.xml')
-  const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkVertices.xml'))
+  const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkYUVAIndex.xml'))
   castXmls.splice(0, skipToIdx)
 
   writeFiles({[PRIV_FILE_NAME]: PRIV_CONTENT})

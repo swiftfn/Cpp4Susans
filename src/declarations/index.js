@@ -1,4 +1,4 @@
-const {hasNoContext} = require('../castxml/context')
+const {hasNoContext, isForwardDeclaration} = require('../castxml/context')
 const {createRegistry} = require('../registry')
 
 const registry = createRegistry([
@@ -15,9 +15,8 @@ const getHeaderFileId = ($, fileName) => {
   return elem.attr('id')
 }
 
-const isTopScope = (node) => {
-  // "incomplete" means forward declaration
-  return hasNoContext(node) && node.attr('incomplete') !== '1'
+const isValidTopScope = (node) => {
+  return hasNoContext(node) && !isForwardDeclaration(node)
 }
 
 // Select top nodes of the header file
@@ -47,7 +46,7 @@ const getDeclarations = ($, topNodes) => {
     .filter((idx, node) => {
       const n = $(node)
       const type = n.prop('nodeName')
-      return isTopScope(n) && !IGNORED_TOP_TYPES.includes(type)
+      return isValidTopScope(n) && !IGNORED_TOP_TYPES.includes(type)
     })
     .map((idx, node) => collect($(node)))
     .get()
