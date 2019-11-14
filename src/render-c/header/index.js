@@ -43,7 +43,7 @@ extern "C" {
 #endif`
   )
 
-  return renderParts(parts)
+  return renderParts(parts) + '\n'
 }
 
 module.exports = {

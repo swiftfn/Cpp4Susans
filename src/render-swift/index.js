@@ -35,7 +35,7 @@ const renderSwift = ($, declarations, cppHeaderBaseFileName) => {
     parts.push(render(d, NO_INDENT))
   }
 
-  return renderParts(parts)
+  return renderParts(parts) + '\n'
 }
 
 const getFileMap = ($, declarations, cppHeaderFileName) => {

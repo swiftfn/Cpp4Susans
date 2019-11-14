@@ -36,7 +36,7 @@ const renderCImpl = ($, declarations, files) => {
     parts.push(render(d))
   }
 
-  return renderParts(parts)
+  return renderParts(parts) + '\n'
 }
 
 module.exports = {
