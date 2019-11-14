@@ -2,8 +2,7 @@ const {createRegistry} = require('../../registry')
 const {renderParts} = require('../../render-util/groups')
 
 const registry = createRegistry([
-  require('./class-struct'),
-  require('./enum')
+  require('./class-struct')
 ])
 
 const renderForwardDeclarations = ($, declarations) => {

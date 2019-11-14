@@ -16,11 +16,11 @@ const renderCore = {
 const renderClassStructForwardDeclaration = ($, declaration, render) => {
   const {
     type,
-    enums, structs, classes
+    structs, classes
   } = declaration
 
   return renderParts([
-    renderGroups([enums, structs, classes], render),
+    renderGroups([structs, classes], render),
     renderCore[type]($, declaration, render)
   ])
 }
