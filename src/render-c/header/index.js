@@ -3,11 +3,13 @@ const {renderParts} = require('../../render-util/groups')
 
 const registry = createRegistry([
   require('./class-struct'),
-  require('./enum'),
   require('./field'),
   require('./function'),
   require('./method')
 ])
+
+// Included by "forward"
+const IGNORED_TYPES = ['ENUMERATION']
 
 const renderHeader = ($, declarations, files) => {
   const {cppHeaderBaseFileName} = files
@@ -15,6 +17,10 @@ const renderHeader = ($, declarations, files) => {
 
   const render = (declaration) => {
     const {type} = declaration
+    if (IGNORED_TYPES.includes(type)) {
+      return ''
+    }
+
     const renderFunc = registry[type]
     if (!renderFunc) {
       throw new Error(`Invalid declaration type: ${type}`)

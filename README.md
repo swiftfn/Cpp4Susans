@@ -24,6 +24,14 @@ Copy `config.js.sample` to `config.js` and modify if neccessary, then run:
 npm run castxml
 ```
 
+On Mac, if you see the annoying warning
+"cannot be opened because the developer cannot be verified",
+you can disable it:
+
+```
+sudo spctl --master-disable
+```
+
 ## Generate bindings for C and other languages
 
 Run:

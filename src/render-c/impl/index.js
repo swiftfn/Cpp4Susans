@@ -16,7 +16,7 @@ const renderImpl = ($, declarations, files) => {
   const render = (declaration) => {
     const {type} = declaration
     if (IGNORED_TYPES.includes(type)) {
-      return '';
+      return ''
     }
 
     const renderFunc = registry[type]

@@ -1,7 +1,7 @@
 const {getBaseFileName, loadDeclarationsFromCastXml, writeFiles} = require('../render-util/file')
 const {renderParts} = require('../render-util/groups')
 
-const {renderForwardDeclarations} = require('./forward')
+const {renderForwardDeclarations, writeForwardHeader} = require('./forward')
 const {renderHeader} = require('./header')
 const {renderImpl} = require('./impl')
 const {FILE_NAME: PRIV_FILE_NAME, CONTENT: PRIV_CONTENT} = require('./impl/priv')
@@ -27,14 +27,14 @@ const getFileMap = ($, declarations, cppHeaderFileName) => {
   }
 }
 
-const writeUmbrellaHeader = (allForwardDeclarations, allHeaders) => {
+const writeUmbrellaHeader = (allHeaders) => {
   const parts = []
 
   parts.push(`#ifndef CPP4SUSANS_UMBRELLA_HEADER
 #define CPP4SUSANS_UMBRELLA_HEADER`
   )
 
-  parts.push(renderParts(allForwardDeclarations))
+  parts.push('#include "cpp4susans_forward.h"')
   parts.push(allHeaders.map(h => `#include "${h}"`).join('\n'))
 
   parts.push('#endif')
@@ -62,7 +62,8 @@ const writeCFiles = (castXmls) => {
     writeFiles(files)
   }
 
-  writeUmbrellaHeader(allForwardDeclarations, allHeaders)
+  writeForwardHeader(allForwardDeclarations)
+  writeUmbrellaHeader(allHeaders)
 }
 
 module.exports = {
