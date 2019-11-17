@@ -7,7 +7,7 @@ const main = () => {
   // const castXmls = ['input/SkSize.xml', 'input/SkCanvas.xml']
 
   const castXmls = glob.sync('input/*.xml')
-  // const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkYUVAIndex.xml'))
+  // const skipToIdx = castXmls.findIndex((path) => path.endsWith('/SkColor.xml'))
   // castXmls.splice(0, skipToIdx)
 
   writeCFiles(castXmls)

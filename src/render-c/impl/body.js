@@ -1,12 +1,9 @@
 const {getContextPath} = require('../../castxml/context')
 
-const {getCDataType} = require('../data')
+const {getCDataType, getCppContainerName} = require('../data')
 
 const {renderArgs} = require('./arg')
 const {TO_CPP_MACRO, toC} = require('./priv')
-
-const getContainerName = ($, node) =>
-  getContextPath($, node).join('::')
 
 const getSubject = ($, declaration, isFunction) => {
   if (isFunction) {
@@ -15,7 +12,7 @@ const getSubject = ($, declaration, isFunction) => {
 
   const {node, belongsToClass, isStatic} = declaration
   return isStatic
-    ? getContainerName($, node) + '::'
+    ? getCppContainerName($, node) + '::'
     : belongsToClass ? `${TO_CPP_MACRO}(self)->` : `${TO_CPP_MACRO}(self).`
 }
 
@@ -39,6 +36,5 @@ const renderFunctionOrMethodBody = ($, declaration, isFunction, isOperator) => {
 }
 
 module.exports = {
-  getContainerName,
   renderFunctionOrMethodBody
 }

@@ -1,5 +1,4 @@
-const {getContextPath} = require('../../castxml/context')
-const {getMethodCReturnType} = require('../data')
+const {withContextPath, getMethodCReturnType} = require('../data')
 
 const {renderArgs} = require('./arg')
 const {convertOperatorName} = require('./op')
@@ -24,12 +23,12 @@ const getMethodName = ($, declaration) => {
 
   const originalName = getOriginalMethodName(type, node)
   const convertedName = type == 'OPERATORMETHOD'
-    ? convertOperatorName(originalName)
-    : originalName
+    ? originalName.map(convertOperatorName).join('_')
+    : originalName.join('_')
 
   const suffixes = getSuffixes($, declaration)
 
-  const parts = [getContextPath($, node), convertedName, suffixes]
+  const parts = [withContextPath($, node, convertedName), suffixes]
   return parts.flat().join('_')
 }
 

@@ -1,9 +1,25 @@
 const {getContext, getContextPath} = require('../castxml/context')
 
+const isValidCNameChar = (char) =>
+  ('a' <= char && char <= 'z') ||
+  ('A' <= char && char <= 'Z') ||
+  ('0' <= char && char <= '9') ||
+  ['_'].includes(char)
+
+// Skia's
+// ```
+// template <SkAlphaType kAT>
+// struct SkRGBA4f
+// ```
+// is parsed to `SkRGBA4f<kPremul_SkAlphaType>` and `SkRGBA4f<kUnpremul_SkAlphaType>`.
+// We need to convert `<` and `>` to `_` so that it's valid in C.
+const convertCNameWithTemplate = (name) =>
+  Array.from(name).map(c => isValidCNameChar(c) ? c : '_').join('')
+
 const withContextPath = ($, node, name) => {
-  const path = getContextPath($, node).join('_')
+  const path = getContextPath($, node).map(convertCNameWithTemplate).join('_')
   const prefix = path ? path + '_' : ''
-  return prefix + name
+  return prefix + convertCNameWithTemplate(name)
 }
 
 const getCDataType = ($, idOrNode) => {
@@ -83,6 +99,9 @@ const getCDataType = ($, idOrNode) => {
   }
 }
 
+const getCppContainerName = ($, node) =>
+  getContextPath($, node).join('::')
+
 const getMethodCReturnType = ($, node, methodType, returns) =>
   methodType === 'CONSTRUCTOR'
     ? getCDataType($, getContext($, node)).name + '*'
@@ -91,6 +110,8 @@ const getMethodCReturnType = ($, node, methodType, returns) =>
       : getCDataType($, returns).name
 
 module.exports = {
+  withContextPath,
   getCDataType,
+  getCppContainerName,
   getMethodCReturnType
 }

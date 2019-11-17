@@ -1,5 +1,5 @@
 const {getContextPath} = require('../../castxml/context')
-const {getCDataType} = require('../data')
+const {getCDataType, getCppContainerName} = require('../data')
 const {FILE_NAME: PRIV_FILE_NAME} = require('./priv')
 
 const collect = ($, declarations, acc) => {
@@ -10,10 +10,7 @@ const collect = ($, declarations, acc) => {
       continue
     }
 
-    const cppPath = getContextPath($, node)
-    cppPath.push(node.attr('name'))
-
-    const cppType = cppPath.join('::')
+    const cppType = getCppContainerName($, node) + '::' + node.attr('name')
     const {name: cType} = getCDataType($, node)
     acc.push(`CPP4SUSANS_DEF_MAP_DECL(${cppType}, ${cType})`)
 
